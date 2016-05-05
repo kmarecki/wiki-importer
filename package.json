@@ -1,0 +1,19 @@
+{
+  "name": "wiki-importer",
+  "version": "0.0.0",
+  "description": "MediaWiki importer",
+  "homepage": "",
+  "author": {
+    "name": "Krzysztof Marecki",
+    "email": "marecki.krzysztof@gmail.com",
+    "url": ""
+  },
+  "keywords": [
+    ""
+  ],
+  "dependencies": {
+    "commander": "^2.9.0",
+    "minimist": "^1.2.0",
+    "node": "0.0.0"
+  }
+}
