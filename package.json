@@ -13,7 +13,9 @@
   ],
   "dependencies": {
     "commander": "^2.9.0",
+    "es6-promise-polyfill": "^1.2.0",
     "minimist": "^1.2.0",
-    "node": "0.0.0"
+    "node": "0.0.0",
+    "sax": "^1.2.1"
   }
 }
