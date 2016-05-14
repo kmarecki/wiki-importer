@@ -4,6 +4,7 @@
   "dependencies": {},
   "ambientDependencies": {
     "commander": "registry:dt/commander#2.3.0+20160317120654",
+    "fs-extra": "registry:dt/fs-extra#0.0.0+20160319124112",
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "minimist": "registry:dt/minimist#1.1.3+20160317120654",
     "node": "registry:dt/node#4.0.0+20160501135006",
