@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/app.js",
+			"program": "${workspaceRoot}/wikiparser.js",
 			"stopOnEntry": false,
 			"args": ["--xmlPath=../../wikibackup/cswiktionary-20160407-pages-articles-multistream.xml"],
 			"cwd": "${workspaceRoot}",

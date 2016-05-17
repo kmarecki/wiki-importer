@@ -1,0 +1,89 @@
+{
+    "výslovnost": [
+        {
+            "IPA": "masa",
+            "Audio": [
+                "Cs-masa.ogg",
+                "maslo"
+            ]
+        }
+    ],
+    "dělení": "ma-sa",
+    "varianty": [
+        {
+            "Příznak2": "zast."
+        },
+        "massa"
+    ],
+    "podstatné jméno (1)": [
+        "rod ženský",
+        {
+            "skloňování": [
+                {
+                    "Substantivum (cs)": {
+                        "nom": " masa",
+                        "sgen": "masy",
+                        "sdat": "mase",
+                        "sacc": "masu",
+                        "svoc": "maso",
+                        "sloc": "mase",
+                        "sins": "masou",
+                        "pnom": "masy",
+                        "pgen": "mas",
+                        "pdat": "masám",
+                        "pacc": "masy",
+                        "pvoc": "masy",
+                        "ploc": "masách",
+                        "pins": "masami"
+                    }
+                }
+            ],
+            "význam": [
+                "velká hmota",
+                {
+                    "Příklad": [
+                        "cs",
+                        "Jižní Město je jedna velká masa betonu a oceli."
+                    ]
+                },
+                "velké množství",
+                {
+                    "Příklad": [
+                        "cs",
+                        "Když ve čtvrtek dorazily masy demonstrantů, byl už Janov v obležení policie."
+                    ]
+                }
+            ],
+            "překlady": [
+                {
+                    "Překlady": {}
+                },
+                {
+                    "Překlady": {
+                        "význam": "velké množství",
+                        "eo": {
+                            "P": [
+                                "eo",
+                                "maso"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "synonyma": [
+                "hmota, množství, spousta",
+                "zástup, množství, spousta"
+            ],
+            "související": [
+                "masový",
+                "masově"
+            ]
+        }
+    ],
+    "podstatné jméno (2)": [
+        "rod střední",
+        {
+            "význam": "genitiv (2. pád) jednotného čísla, nominativ, akuzativ a vokativ (1., 4., 5. pád) množného čísla od slova maso"
+        }
+    ]
+}

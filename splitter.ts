@@ -13,7 +13,7 @@ class Page {
     timestamp: Date
 }
 
-class SaxObjectReader {
+class SaxReader {
 
     objects: Object[];
     tags: string[];
@@ -33,6 +33,7 @@ class SaxObjectReader {
     clear(): void {
         this.objects = null;
         this.tags = null;
+       
     }
 
     openTag(tag: sax.Tag): void {
@@ -67,7 +68,7 @@ class SaxObjectReader {
     }
 
     closeTag(tag: string): void {
-        if (tag) {
+        if (this.currentTag && tag) {
             if (this.currentTag == tag) {
                 this.tags.pop();
 
@@ -168,7 +169,7 @@ export class Splitter {
     }
 
     split(): void {
-        var reader: SaxObjectReader;
+        var reader: SaxReader;
         var saxStream = sax.createStream(true, {});
         this.tagCount = 1;
         saxStream.on('error', function (e) {
@@ -180,7 +181,7 @@ export class Splitter {
             this.currentTag = tag;
             if (tag.name == 'page') {
                 if (!reader) {
-                    reader = new SaxObjectReader();
+                    reader = new SaxReader();
                 }
                 reader.clear();
             }

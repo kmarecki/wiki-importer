@@ -1,0 +1,80 @@
+{
+    "čeština": {
+        "výslovnost": [
+            {
+                "IPA": "maːslɔ",
+                "Audio": [
+                    "Cs-máslo.ogg",
+                    "maslo"
+                ]
+            }
+        ],
+        "dělení": "más-lo",
+        "podstatné jméno": [
+            "rod střední",
+            {
+                "skloňování": {
+                    "Substantivum (cs)": {
+                        "nom": "máslo",
+                        "sgen": "másla",
+                        "sdat": "máslu",
+                        "sacc": "máslo",
+                        "svoc": "máslo",
+                        "sloc": "máslu",
+                        "sins": "máslem",
+                        "pnom": "másla",
+                        "pgen": "másel",
+                        "pdat": "máslům",
+                        "pacc": "másla",
+                        "pvoc": "másla",
+                        "ploc": "máslech",
+                        "pins": "másly"
+                    }
+                },
+                "význam": [
+                    "jedlý živočišný tuk vyráběný stloukání smetany",
+                    {
+                        "Příklad": [
+                            "cs",
+                            "Měla ráda chleba s máslem"
+                        ]
+                    }
+                ],
+                "překlady": [
+                    {
+                        "Překlady": {
+                            "význam": "jedlý tuk",
+                            "da": {
+                                "P": [
+                                    "da",
+                                    "smør"
+                                ]
+                            },
+                            "de": {
+                                "P": [
+                                    "de",
+                                    "Butter"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "související": [
+                    "máslový",
+                    "máslovitý",
+                    "máselný",
+                    "máslíčko"
+                ],
+                "slovní spojení": [
+                    "kobylí máslo",
+                    "pomazánkové máslo",
+                    "zaječí máslo"
+                ],
+                "fráze a idiomy": [
+                    "mít máslo na hlavě",
+                    "jít jako po másle"
+                ]
+            }
+        ]
+    }
+}

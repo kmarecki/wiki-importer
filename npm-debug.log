@@ -1,0 +1,114 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'xregexp-all',
+1 verbose cli   '--save' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose install initial load of /home/krzys/githome/wiki-importer/package.json
+5 warn package.json wiki-importer@0.0.0 No repository field.
+6 warn package.json wiki-importer@0.0.0 keywords should be an array of strings
+7 warn package.json wiki-importer@0.0.0 No README data
+8 warn package.json wiki-importer@0.0.0 No license field.
+9 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/commander/package.json
+10 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/es6-promise/package.json
+11 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/es6-promise-polyfill/package.json
+12 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/fs-extra/package.json
+13 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/lodash/package.json
+14 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/minimist/package.json
+15 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/node/package.json
+16 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/readline-sync/package.json
+17 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/sax/package.json
+18 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/wtf_wikipedia/package.json
+19 verbose installManyTop reading scoped package data from /home/krzys/githome/wiki-importer/node_modules/xregexp/package.json
+20 info package.json node@0.0.0 No description
+21 info package.json node@0.0.0 No repository field.
+22 info package.json node@0.0.0 No README data
+23 info package.json node@0.0.0 No license field.
+24 verbose readDependencies loading dependencies from /home/krzys/githome/wiki-importer/package.json
+25 silly cache add args [ 'xregexp-all', null ]
+26 verbose cache add spec xregexp-all
+27 silly cache add parsed spec Result {
+27 silly cache add   raw: 'xregexp-all',
+27 silly cache add   scope: null,
+27 silly cache add   name: 'xregexp-all',
+27 silly cache add   rawSpec: '',
+27 silly cache add   spec: 'latest',
+27 silly cache add   type: 'tag' }
+28 silly addNamed xregexp-all@latest
+29 verbose addNamed "latest" is being treated as a dist-tag for xregexp-all
+30 info addNameTag [ 'xregexp-all', 'latest' ]
+31 silly mapToRegistry name xregexp-all
+32 silly mapToRegistry using default registry
+33 silly mapToRegistry registry https://registry.npmjs.org/
+34 silly mapToRegistry data Result {
+34 silly mapToRegistry   raw: 'xregexp-all',
+34 silly mapToRegistry   scope: null,
+34 silly mapToRegistry   name: 'xregexp-all',
+34 silly mapToRegistry   rawSpec: '',
+34 silly mapToRegistry   spec: 'latest',
+34 silly mapToRegistry   type: 'tag' }
+35 silly mapToRegistry uri https://registry.npmjs.org/xregexp-all
+36 verbose addNameTag registry:https://registry.npmjs.org/xregexp-all not in flight; fetching
+37 verbose request uri https://registry.npmjs.org/xregexp-all
+38 verbose request no auth needed
+39 info attempt registry request try #1 at 11:02:17 PM
+40 verbose request id c060f9db63d3ff89
+41 http request GET https://registry.npmjs.org/xregexp-all
+42 http 404 https://registry.npmjs.org/xregexp-all
+43 verbose headers { 'content-type': 'application/json',
+43 verbose headers   'cache-control': 'max-age=0',
+43 verbose headers   'content-length': '2',
+43 verbose headers   'accept-ranges': 'bytes',
+43 verbose headers   date: 'Tue, 17 May 2016 21:02:19 GMT',
+43 verbose headers   via: '1.1 varnish',
+43 verbose headers   age: '0',
+43 verbose headers   connection: 'keep-alive',
+43 verbose headers   'x-served-by': 'cache-ams4127-AMS',
+43 verbose headers   'x-cache': 'MISS',
+43 verbose headers   'x-cache-hits': '0',
+43 verbose headers   'x-timer': 'S1463518938.870170,VS0,VE732',
+43 verbose headers   vary: 'Accept-Encoding' }
+44 silly get cb [ 404,
+44 silly get   { 'content-type': 'application/json',
+44 silly get     'cache-control': 'max-age=0',
+44 silly get     'content-length': '2',
+44 silly get     'accept-ranges': 'bytes',
+44 silly get     date: 'Tue, 17 May 2016 21:02:19 GMT',
+44 silly get     via: '1.1 varnish',
+44 silly get     age: '0',
+44 silly get     connection: 'keep-alive',
+44 silly get     'x-served-by': 'cache-ams4127-AMS',
+44 silly get     'x-cache': 'MISS',
+44 silly get     'x-cache-hits': '0',
+44 silly get     'x-timer': 'S1463518938.870170,VS0,VE732',
+44 silly get     vary: 'Accept-Encoding' } ]
+45 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/xregexp-all
+45 verbose stack     at makeError (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+45 verbose stack     at CachingRegistryClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:242:14)
+45 verbose stack     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+45 verbose stack     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:199:22)
+45 verbose stack     at emitTwo (events.js:87:13)
+45 verbose stack     at Request.emit (events.js:172:7)
+45 verbose stack     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1036:10)
+45 verbose stack     at emitOne (events.js:82:20)
+45 verbose stack     at Request.emit (events.js:169:7)
+45 verbose stack     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:963:12)
+46 verbose statusCode 404
+47 verbose pkgid xregexp-all
+48 verbose cwd /home/krzys/githome/wiki-importer
+49 error Linux 4.4.0-22-generic
+50 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "xregexp-all" "--save"
+51 error node v4.4.4
+52 error npm  v2.15.1
+53 error code E404
+54 error 404 Registry returned 404 for GET on https://registry.npmjs.org/xregexp-all
+54 error 404
+54 error 404 'xregexp-all' is not in the npm registry.
+54 error 404 You should bug the author to publish it (or use the name yourself!)
+54 error 404 It was specified as a dependency of 'wiki-importer'
+54 error 404
+54 error 404 Note that you can also install from a
+54 error 404 tarball, folder, http url, or git url.
+55 verbose exit [ 1, true ]
