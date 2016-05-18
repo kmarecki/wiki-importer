@@ -3,14 +3,16 @@ import * as _ from 'lodash';
 import * as XRegExp from 'xregexp';
 
 class WikiParser {
-
-    private h1regex = XRegExp('=[ \\pL]+=');
-    private h2regex = XRegExp('==[ \\pL]+==');
-    private h3regex = XRegExp('===[ \\pL]+===');
-    private h4regex = XRegExp('====[ \\pL]+====');
+    TEXT_PROPERTY_NAME = '#text';
+    private letterregex = '\\pL\\p{Hebrew}'; v
+    private h1regex = XRegExp(`=[ ${this.letterregex}]+=`);
+    private h2regex = XRegExp(`==[ ${this.letterregex}]+==`);
+    private h3regex = XRegExp(`===[ ${this.letterregex}]+===`);
+    private h4regex = XRegExp(`====[ ${this.letterregex}]+====`);
     private splitregex = XRegExp('[\*\#]');
-    private templateregex = XRegExp('\{\{[^\[\n\r\t\'\"\+!?]+\}\}');
-    private templatesplitregex = XRegExp('\\|(?![\\pL\\p{Hebrew}|]+\})');
+    private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.]+\}\}`);
+    private templatesplitregex = XRegExp(`\\|(?![${this.letterregex}|]+\})`);
+    private assignmentregex = XRegExp(`[${this.letterregex} ]+=[${this.letterregex} {}|\n]+`);
 
     private objects: Object[];
     private currentLevel = 0;
@@ -47,16 +49,62 @@ class WikiParser {
         return header.replace(/=/g, '').trim();
     }
 
-    private tryParseTemplate(template: string): string[] {
-        if (template) {
-            template = template.trim();
-            if (template.match(this.templateregex)) {
-                template = template.trim().replace(/^{{/g, '').replace(/}}$/g, '');
-                // return template.split(this.templatesplitregex);
-                return template.split(this.templatesplitregex);
-                
+    private tryParseTemplate(text: string): string[] {
+        if (text.match(this.templateregex)) {
+            text = text.trim().replace(/^{{/g, '').replace(/}}$/g, '');
+            return text.split(this.templatesplitregex);
+        }
+        return null;
+    }
+
+    private tryParseAssignment(text: string): string[] {
+        if (text.match(this.assignmentregex)) {
+            return text.split('=');
+        }
+        return null;
+    }
+
+    private addPropertyFromParseResult(parsed: string[], currentObject: Object): void {
+        var propertyName = parsed[0].trim();
+        var childs = parsed.slice(1);
+        this.addProperty(propertyName, childs, currentObject);
+    }
+
+    private addProperty(propertyName: string, childs: string[], currentObject: Object): void {
+        currentObject[propertyName] = {};
+        if (childs) {
+            for (var child of childs) {
+                this.tryParseText(child, currentObject[propertyName]);
             }
-            return null;
+        }
+    }
+
+    private addTextProperty(text: string, currentObject: Object): void {
+       
+        if (!currentObject[this.TEXT_PROPERTY_NAME]) {
+            currentObject[this.TEXT_PROPERTY_NAME] = text;
+        } else {
+            if(!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
+                currentObject[this.TEXT_PROPERTY_NAME] = [currentObject[this.TEXT_PROPERTY_NAME]];
+            }
+            (<[]>currentObject[this.TEXT_PROPERTY_NAME]).push(text);
+        }
+    }
+
+    private tryParseText(text: string, currentObject: Object): void {
+        if (text) {
+            text = text.trim();
+            var parsed = this.tryParseTemplate(text);
+            if (parsed) {
+                this.addPropertyFromParseResult(parsed, currentObject);
+            } else {
+                parsed = this.tryParseAssignment(text);
+                if (parsed) {
+                    this.addPropertyFromParseResult(parsed, currentObject);
+                } else {
+                    this.addTextProperty(text, currentObject);
+                }
+            }
         }
     }
 
@@ -64,31 +112,20 @@ class WikiParser {
         if (this.currentText) {
             var splitted = this.currentText.split(this.splitregex);
             for (var splittedPart of splitted) {
-                if (splittedPart) {
-                    var parsed = this.tryParseTemplate(splittedPart);
-                    if (parsed) {
-                        var parsedTemplate = {}
-                        parsedTemplate[parsed[0]] = parsed.slice(1);
-                        (<Object[]>this.currentObject).push(parsedTemplate);
-                    } else {
-                        (<Object[]>this.currentObject).push(splittedPart);
-                    }
-                }
+                this.tryParseText(splittedPart, this.currentObject);
             }
             this.currentText = '';
         }
     }
 
     private addNewHeader(value: string): void {
-        var newHeader = {};
-        newHeader[value] = [];
-        (<Object[]>this.currentObject).push(newHeader);
-        this.objects.push(_.last(<Object[]>this.currentObject)[value]);
+        this.addProperty(value, null, this.currentObject);
+        this.objects.push(this.currentObject[value]);
     }
 
     parse(text: string): any {
 
-        this.objects = [[]];
+        this.objects = [{}];
         for (var line of text.split('\n')) {
             var level = this.matchHeader(line);
             if (level > 0) {
@@ -125,10 +162,3 @@ var parser = new WikiParser();
 var parsed = parser.parse(text);
 //var parsed = wtf_wikipedia.parse(text);
 console.log(JSON.stringify(parsed, null, 4));
-
-var unicodeWord = XRegExp('^\\pL+$'); // L: Letter
-console.log(unicodeWord.test("Русский")); // true
-console.log(unicodeWord.test("日本語")); // true
-console.log(unicodeWord.test("العربية")); // true
-
-console.log(XRegExp("^\\p{Katakana}+$").test("カタカナ")); // true
