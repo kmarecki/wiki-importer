@@ -34,6 +34,17 @@
 			"outDir": null,
 			"localRoot": "${workspaceRoot}",
 			"remoteRoot": null
+		},
+		{
+			"name": "Run mocha",
+			"type": "node",
+			"request": "launch",
+			"program": "mocha",
+			"stopOnEntry": false,
+			"args": ["test/**/*.js"],
+			"cwd": "${workspaceRoot}",
+			"runtimeExecutable": null,
+			"env": { "NODE_ENV": "test"}
 		}
 	]
 }
