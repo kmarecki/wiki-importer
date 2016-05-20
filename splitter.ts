@@ -4,11 +4,14 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as util from 'util';
 
+import {WikiParser} from './wikiparser';
+
 var readlineSync = require('readline-sync');
 
 class Page {
     title: string;
     text: string;
+    parsed: any;
     revisionId: number;
     timestamp: Date
 }
@@ -91,7 +94,7 @@ class TextPart {
     text: string;
 }
 
-class WikiTemplateParser {
+class WikiSplitter {
 
     splitH2(text: string): TextPart[] {
         var parts: TextPart[] = [];
@@ -124,7 +127,8 @@ export class Splitter {
     private languages: string[];
     private tagCount: number;
 
-    private wikiParser = new WikiTemplateParser();
+    private wikiSplitter = new WikiSplitter();
+    private wikiParser = new WikiParser();
 
     constructor(xmlPath: string, outputDir: string, languages: string[]) {
         this.xmlPath = xmlPath;
@@ -136,13 +140,16 @@ export class Splitter {
         if (raw.ns == 0) {
             if (raw.title) {
                 try {
-                    for (var language of this.wikiParser.splitH2(raw.revision.text)) {
+                    for (var language of this.wikiSplitter.splitH2(raw.revision.text)) {
                         if (this.languages.length == 0 || _.includes(this.languages, language.value)) {
                             let page = new Page();
                             page.title = raw.title.replace('/', '_');
                             page.revisionId = raw.revision.id;
                             page.timestamp = raw.revision.timestamp;
                             page.text = language.text;
+                            
+                            
+                            page.parsed = this.wikiParser.parse(language.text);
 
                             let filename = path.join(this.outputDir, language.value, page.title);
                             let dirname = path.dirname(filename);
@@ -160,7 +167,7 @@ export class Splitter {
                     }
                     console.log(e.name + ': ' + e.message);
                     console.log(errorfilename);
-                    readlineSync.question('');
+                    // readlineSync.question('');
                     let dirname = path.dirname(errorfilename);
                     fs.ensureDir(dirname, err => fs.writeFile(errorfilename, JSON.stringify(data, null, 4)));
                 }
