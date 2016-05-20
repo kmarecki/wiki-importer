@@ -7,9 +7,14 @@
 			"request": "launch",
 			"program": "${workspaceRoot}/app.js",
 			"stopOnEntry": false,
-			"args": ["--xmlPath=../../wikibackup/cswiktionary-20160407-pages-articles-multistream.xml", 
-					 "--outputDir=../../wikipages/cs", 
-					 "čeština", "polština", "angličtina", "ruština"],
+			"args": [
+				"--xmlPath=../../wikibackup/cswiktionary-20160407-pages-articles-multistream.xml",
+				"--outputDir=../../wikipages/cs",
+				"čeština",
+				"polština",
+				"angličtina",
+				"ruština"
+			],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": null,
 			"runtimeExecutable": null,
@@ -39,12 +44,21 @@
 			"name": "Run mocha",
 			"type": "node",
 			"request": "launch",
-			"program": "mocha",
+			"program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
 			"stopOnEntry": false,
-			"args": ["test/**/*.js"],
+			"args": [
+				"tests/**/*.js"
+			],
 			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
-			"env": { "NODE_ENV": "test"}
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "test"
+			},
+			"sourceMaps": true,
+			"outDir": null
 		}
 	]
 }
