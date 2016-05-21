@@ -74,7 +74,6 @@ class SaxReader {
         if (this.currentTag && tag) {
             if (this.currentTag == tag) {
                 this.tags.pop();
-                
                 this.reduceObject(this.currentObject);
                 this.objects.pop();
             } else {

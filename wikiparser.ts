@@ -13,17 +13,36 @@ export class WikiParser {
     private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.]+\}\}`);
     private templatesplitregex = XRegExp(`\\|(?![${this.letterregex}|]+\})`);
     private assignmentregex = XRegExp(`[${this.letterregex} ]+=[${this.letterregex} {}|\n]+`);
+    private categoryregex = XRegExp(`\[\[[ ${this.letterregex}]+:[ ${this.letterregex}]+\]\]`, 'g');
 
     private objects: Object[];
     private currentLevel: number;
     private currentText: string = '';
+
+    private _debugInfo: boolean;
+    public get debugInfo(): boolean {
+        return this._debugInfo;
+    }
+
+    public set debugInfo(value: boolean) {
+        this._debugInfo = value;
+    }
+
+    private _stripCategories = true;
+    public get stripCategories(): boolean {
+        return this._stripCategories;
+    }
+
+    public set stripCategories(value: boolean) {
+        this._stripCategories = value;
+    }
 
     private reset(): void {
         this.objects = [{}];
         this.currentLevel = 0;
         this.currentText = '';
     }
-    
+
     private get currentObject(): Object {
         return _.last(this.objects);
     }
@@ -86,11 +105,13 @@ export class WikiParser {
     }
 
     private addTextProperty(text: string, currentObject: Object): void {
-       
+        if (this.stripCategories) {
+            text = text.replace(this.categoryregex, '');
+        }
         if (!currentObject[this.TEXT_PROPERTY_NAME]) {
             currentObject[this.TEXT_PROPERTY_NAME] = text;
         } else {
-            if(!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
+            if (!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
                 currentObject[this.TEXT_PROPERTY_NAME] = [currentObject[this.TEXT_PROPERTY_NAME]];
             }
             (<[]>currentObject[this.TEXT_PROPERTY_NAME]).push(text);
@@ -131,42 +152,37 @@ export class WikiParser {
 
     parse(text: string): any {
         if (text) {
-        this.reset();
-        for (var line of text.split('\n')) {
-            var level = this.matchHeader(line);
-            if (level > 0) {
-                var headerValue = this.getHeaderValue(line);
-                console.log(level + ' ' + headerValue);
-
-                this.saveCurrentText();
-
-                if (level > this.currentLevel) {
-                    //Add child header
-                    this.saveCurrentText();
-                    this.addNewHeader(headerValue);
-                } else {
-                    //Save header value, return to parent header
-                    this.saveCurrentText();
-                    for (let i = 0; i <= this.currentLevel - level; i++) {
-                        this.objects.pop();
+            this.reset();
+            for (var line of text.split('\n')) {
+                var level = this.matchHeader(line);
+                if (level > 0) {
+                    var headerValue = this.getHeaderValue(line);
+                    if (this._debugInfo) {
+                        console.log(level + ' ' + headerValue);
                     }
-                    this.addNewHeader(headerValue);
+
+                    this.saveCurrentText();
+
+                    if (level > this.currentLevel) {
+                        //Add child header
+                        this.saveCurrentText();
+                        this.addNewHeader(headerValue);
+                    } else {
+                        //Save header value, return to parent header
+                        this.saveCurrentText();
+                        for (let i = 0; i <= this.currentLevel - level; i++) {
+                            this.objects.pop();
+                        }
+                        this.addNewHeader(headerValue);
+                    }
+                    this.currentLevel = level;
+                } else {
+                    this.currentText = this.currentText + line;
                 }
-                this.currentLevel = level;
-            } else {
-                this.currentText = this.currentText + line;
             }
+            this.saveCurrentText();
+            return this.rootObject;
         }
-        this.saveCurrentText();
-        return this.rootObject;
-    }
     }
 }
 
-// var text = "== čeština ==\n=== výslovnost ===\n* {{IPA|maːslɔ}}\n* {{Audio|Cs-máslo.ogg|máslo}}\n\n=== dělení ===\n* más-lo\n\n=== podstatné jméno ===\n* ''rod střední''\n\n==== skloňování ====\n{{Substantivum (cs)\n  | snom = máslo\n  | sgen = másla\n  | sdat = máslu\n  | sacc = máslo\n  | svoc = máslo\n  | sloc = máslu\n  | sins = máslem\n  | pnom = másla\n  | pgen = másel\n  | pdat = máslům\n  | pacc = másla\n  | pvoc = másla\n  | ploc = máslech\n  | pins = másly\n}}\n\n==== význam ====\n# [[jedlý]] [[živočišný]] [[tuk]] [[vyráběný]] [[stloukání]]m [[smetana|smetany]]\n#* {{Příklad|cs|Měla ráda chleba s máslem.}}\n\n==== překlady ====\n# {{Překlady\n  | význam = jedlý tuk\n  | da = {{P|da|smør}}\n  | de = {{P|de|Butter|f}}\n  | el = {{P|el|βούτυρο|n}}\n  | en = {{P|en|butter}}\n  | eo = {{P|eo|butero}}\n  | es = {{P|es|mantequilla|f}}\n  | fi = {{P|fi|voi}}\n  | fr = {{P|fr|beurre|m}}\n  | ga = {{P|ga|im|m}}\n  | he = {{P|he|חֶמְאָה|f}}\n  | hsb = {{P|hsb|butra|f}}\n  | hu = {{P|hu|vaj}}\n  | it = {{P|it|burro|m}}\n  | lv = {{P|lv|sviests|m}}\n  | no = {{P|no|smør}}\n  | pl = {{P|pl|masło|n}}\n  | ru = {{P|ru|масло|n}}\n  | sk = {{P|sk|maslo|n}}\n  | tr = {{P|tr|tereyağı}}\n  | yi = {{P|yi|פּוטער|f}}\n}}\n\n==== související ====\n* [[máslový]]\n* [[máslovitý]]\n* [[máselný]]\n* [[máslíčko]]\n* [[máslovka]]\n* [[máselnice]]\n* [[máslař]]\n* [[máslařka]]\n* [[máslenka]]\n* [[máslovník]]\n* [[máslárna]]\n\n==== slovní spojení ====\n* [[kobylí máslo]]\n* [[pomazánkové máslo]]\n* [[zaječí máslo]]\n\n==== fráze a idiomy ====\n* [[mít máslo na hlavě]]\n* [[jít jako po másle]]\n";
-
-
-// var parser = new WikiParser();
-// var parsed = parser.parse(text);
-// //var parsed = wtf_wikipedia.parse(text);
-// console.log(JSON.stringify(parsed, null, 4));
