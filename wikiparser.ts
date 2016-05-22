@@ -4,15 +4,18 @@ import * as XRegExp from 'xregexp';
 
 export class WikiParser {
     TEXT_PROPERTY_NAME = '#text';
-    private letterregex = '\\pL\\p{Hebrew}'; v
+    private letterregex = '\\pL\\p{Hebrew}'; 
+    private splitregex = '\*\#';
     private h1regex = XRegExp(`=[ ${this.letterregex}]+=`);
     private h2regex = XRegExp(`==[ ${this.letterregex}]+==`);
     private h3regex = XRegExp(`===[ ${this.letterregex}]+===`);
     private h4regex = XRegExp(`====[ ${this.letterregex}]+====`);
-    private splitregex = XRegExp('[\*\#]+');
+    private split1regex = XRegExp(`[${this.splitregex}]{1}`);
+    private split2regex = XRegExp(`[${this.splitregex}]{2}(?![${this.splitregex}]+)`);
+    private split3regex = XRegExp(`[${this.splitregex}]{3}(?![${this.splitregex}]+)`);
     private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.]+\}\}`);
     private templatesplitregex = XRegExp(`\\|(?![${this.letterregex}|]+\})`);
-    private assignmentregex = XRegExp(`[${this.letterregex} ]+=[${this.letterregex} {}|\n]+`);
+    private assignmentregex = XRegExp(`[${this.letterregex} ]+[=:][${this.letterregex} {}|\n]+`);
     private categoryregex = XRegExp(`\[\[[ ${this.letterregex}]+:[ ${this.letterregex}]+\]\]`, 'g');
 
     private objects: Object[];
@@ -84,7 +87,7 @@ export class WikiParser {
 
     private tryParseAssignment(text: string): string[] {
         if (text.match(this.assignmentregex)) {
-            return text.split('=');
+            return text.split(/[=:]/g);
         }
         return null;
     }
@@ -137,7 +140,7 @@ export class WikiParser {
 
     private saveCurrentText(): void {
         if (this.currentText) {
-            var splitted = this.currentText.split(this.splitregex);
+            var splitted = this.currentText.split(this.split1regex);
             for (var splittedPart of splitted) {
                 this.tryParseText(splittedPart, this.currentObject);
             }

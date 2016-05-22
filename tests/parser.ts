@@ -27,4 +27,9 @@ describe('WikiParser test suite', () => {
         parsePage('moří', parser);
         done();
     });
+    
+     it('parse lists (sova)', (done) => {
+        parsePage('sova', parser);
+        done();
+    });
 });

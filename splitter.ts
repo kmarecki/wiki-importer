@@ -151,7 +151,7 @@ export class Splitter {
 
     private isLanguageValid(language: string): boolean {
         if (this.options.languages.length != 0) {
-            if (!_.find(this.options.languages, lang => lang.indexOf(language) > - 1)) {
+            if (!_.find(this.options.languages, lang => language.indexOf(lang) > - 1)) {
                 return false;
             }
         }
@@ -175,13 +175,13 @@ export class Splitter {
         for (let language of this.wikiSplitter.splitH2(raw.revision.text)) {
             if (this.isLanguageValid(language.value)) {
                 let page = new Page();
-                page.title = raw.title.replace('/', '_');
+                page.title = raw.title;
                 page.revisionId = raw.revision.id;
                 page.timestamp = raw.revision.timestamp;
                 page.text = language.text;
                 page.parsed = this.wikiParser.parse(language.text);
 
-                let filename = path.join(this.options.outputDir, language.value, page.title);
+                let filename = path.join(this.options.outputDir, language.value, _.last(page.title.split('/')));
                 console.log(`${this.pageCount} ${page.title} - ${language.value}, ${filename}`);
                 this.saveFile(filename, page);
             }
