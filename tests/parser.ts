@@ -11,9 +11,20 @@ function parsePage(pageName: string, parser: WikiParser): void {
 
 describe('WikiParser test suite', () => {
     let parser = new WikiParser();
+    parser.stripCategories = true;
+   
+     it('parse (delfin)', (done) => {
+        parsePage('delfin', parser);
+        done();
+    });
     
-    it('dělat', (done) => {
+    it('strip categories (dělat)', (done) => {
         parsePage('dělat', parser);
+        done();
+    });
+    
+    it('parse references (moří)', (done) => {
+        parsePage('moří', parser);
         done();
     });
 });

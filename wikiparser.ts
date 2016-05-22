@@ -28,7 +28,7 @@ export class WikiParser {
         this._debugInfo = value;
     }
 
-    private _stripCategories = true;
+    private _stripCategories: boolean;
     public get stripCategories(): boolean {
         return this._stripCategories;
     }
