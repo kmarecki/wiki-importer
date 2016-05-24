@@ -4,19 +4,21 @@ import * as XRegExp from 'xregexp';
 
 export class WikiParser {
     TEXT_PROPERTY_NAME = '#text';
-    private letterregex = '\\pL\\p{Hebrew}'; 
+    //\u0301 - accented Cyrilic 
+    private letterregex = '\\pL\\p{Cyrillic}\\p{Hebrew}\u0301';
     private splitregex = '\*\#';
     private h1regex = XRegExp(`=[ ${this.letterregex}]+=`);
     private h2regex = XRegExp(`==[ ${this.letterregex}]+==`);
     private h3regex = XRegExp(`===[ ${this.letterregex}]+===`);
     private h4regex = XRegExp(`====[ ${this.letterregex}]+====`);
-    private split1regex = XRegExp(`[${this.splitregex}]{1}`);
+    private split1regex = XRegExp(`[\s][${this.splitregex}][\s]`);
     private split2regex = XRegExp(`[${this.splitregex}]{2}(?![${this.splitregex}]+)`);
     private split3regex = XRegExp(`[${this.splitregex}]{3}(?![${this.splitregex}]+)`);
-    private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.]+\}\}`);
+    private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.\n]+\}\}`);
     private templatesplitregex = XRegExp(`\\|(?![${this.letterregex}|]+\})`);
-    private assignmentregex = XRegExp(`[${this.letterregex} ]+[=:][${this.letterregex} {}|\n]+`);
-    private categoryregex = XRegExp(`\[\[[ ${this.letterregex}]+:[ ${this.letterregex}]+\]\]`, 'g');
+    private assignmentregex = XRegExp(`[ ${this.letterregex}]+[=][${this.letterregex} {}|\n]`);
+    private assignmentoutsideregex = XRegExp(`^[ ${this.letterregex}-]+[:]`);
+    private categoryregex = XRegExp(`\[\[[ ${this.letterregex}]+:.+\]\]`, 'g');
 
     private objects: Object[];
     private currentLevel: number;
@@ -86,51 +88,78 @@ export class WikiParser {
     }
 
     private tryParseAssignment(text: string): string[] {
+        if (text.match(this.assignmentoutsideregex)) {
+            // can't use text.split(/[:]/), it splits multiple times
+            var i = text.indexOf(':');
+            return [text.slice(0, i), text.slice(i + 1)];
+        }
         if (text.match(this.assignmentregex)) {
-            return text.split(/[=:]/g);
+            return text.split(/[=]/g);
         }
         return null;
     }
 
-    private addPropertyFromParseResult(parsed: string[], currentObject: Object): void {
-        var propertyName = parsed[0].trim();
-        var childs = parsed.slice(1);
-        this.addProperty(propertyName, childs, currentObject);
+    private normalizeChild(child: string): string {
+        if (this.stripCategories) {
+            child = child.replace(this.categoryregex, '');
+        }
+        return child.replace(/\*\*:/g, '***');
     }
-
-    private addProperty(propertyName: string, childs: string[], currentObject: Object): void {
+    private addProperty(propertyName: string, childs: string[], currentObject: Object, splitLevel: number): void {
         currentObject[propertyName] = {};
         if (childs) {
+            splitLevel++;
             for (var child of childs) {
-                this.tryParseText(child, currentObject[propertyName]);
+                if (this.debugInfo) {
+                    console.log('Child: ' + child);
+                }
+                var regex = splitLevel == 2 ? /(^|[\s])([\*\#]{2}|\#\*)[\s]/g : /(^|[\s])([\*\#]{3}|\#\*)[\s]/g;
+                // var splitted = child.split(/[\*\#]{2}/g);
+                var splitted = this.normalizeChild(child).split(regex);
+                for (var splitedPart of splitted) {
+                    if (this.debugInfo) {
+                        console.log(`Split${splitLevel}: ${splitedPart}`);
+                    }
+                    this.tryParseText(splitedPart, currentObject[propertyName], splitLevel);
+                }
             }
         }
+    }
+
+    private addPropertyFromParseResult(parsed: string[], currentObject: Object, splitLevel: number): void {
+        var propertyName = parsed[0].trim();
+        var childs = parsed.slice(1);
+        this.addProperty(propertyName, childs, currentObject, splitLevel);
     }
 
     private addTextProperty(text: string, currentObject: Object): void {
         if (this.stripCategories) {
             text = text.replace(this.categoryregex, '');
         }
-        if (!currentObject[this.TEXT_PROPERTY_NAME]) {
-            currentObject[this.TEXT_PROPERTY_NAME] = text;
-        } else {
-            if (!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
-                currentObject[this.TEXT_PROPERTY_NAME] = [currentObject[this.TEXT_PROPERTY_NAME]];
+        text = text.replace(/[\n\#\*]/g, '');
+        if (text) {
+
+            if (!currentObject[this.TEXT_PROPERTY_NAME]) {
+                currentObject[this.TEXT_PROPERTY_NAME] = text;
+            } else {
+                if (!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
+                    currentObject[this.TEXT_PROPERTY_NAME] = [currentObject[this.TEXT_PROPERTY_NAME]];
+                }
+                (<[]>currentObject[this.TEXT_PROPERTY_NAME]).push(text);
             }
-            (<[]>currentObject[this.TEXT_PROPERTY_NAME]).push(text);
         }
     }
 
-    private tryParseText(text: string, currentObject: Object): void {
+    private tryParseText(text: string, currentObject: Object, splitLevel: number): void {
         if (text) {
             text = text.trim();
             var parsed = this.tryParseTemplate(text);
             if (parsed) {
-                this.addPropertyFromParseResult(parsed, currentObject);
+                this.addPropertyFromParseResult(parsed, currentObject, splitLevel);
             } else {
                 parsed = this.tryParseAssignment(text);
                 if (parsed) {
-                    this.addPropertyFromParseResult(parsed, currentObject);
+                    this.addPropertyFromParseResult(parsed, currentObject, splitLevel);
                 } else {
                     this.addTextProperty(text, currentObject);
                 }
@@ -140,16 +169,20 @@ export class WikiParser {
 
     private saveCurrentText(): void {
         if (this.currentText) {
-            var splitted = this.currentText.split(this.split1regex);
+            var splitted = this.currentText.split(/(^|[\s])([\*\#]|\#\*)[\s]/g);
+            //var splitted = this.currentText.split(this.split1regex);
             for (var splittedPart of splitted) {
-                this.tryParseText(splittedPart, this.currentObject);
+                if (splittedPart) {
+                    console.log('Split: ' + splittedPart);
+                    this.tryParseText(splittedPart, this.currentObject, 1);
+                }
             }
             this.currentText = '';
         }
     }
 
     private addNewHeader(value: string): void {
-        this.addProperty(value, null, this.currentObject);
+        this.addProperty(value, null, this.currentObject, 1);
         this.objects.push(this.currentObject[value]);
     }
 
@@ -159,12 +192,12 @@ export class WikiParser {
             for (var line of text.split('\n')) {
                 var level = this.matchHeader(line);
                 if (level > 0) {
+                    this.saveCurrentText();
+
                     var headerValue = this.getHeaderValue(line);
                     if (this._debugInfo) {
                         console.log(level + ' ' + headerValue);
                     }
-
-                    this.saveCurrentText();
 
                     if (level > this.currentLevel) {
                         //Add child header
@@ -180,7 +213,7 @@ export class WikiParser {
                     }
                     this.currentLevel = level;
                 } else {
-                    this.currentText = this.currentText + line;
+                    this.currentText = this.currentText + '\n' + line;
                 }
             }
             this.saveCurrentText();

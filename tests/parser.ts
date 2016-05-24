@@ -6,11 +6,13 @@ import {WikiParser} from '../wikiparser';
 function parsePage(pageName: string, parser: WikiParser): void {
     var fileName = `./pages/${pageName}.json`;
     var page = <{text: string, parsed: string}>require(fileName);
-    assert.deepEqual(parser.parse(page.text), page.parsed);
+    var parsed = parser.parse(page.text);
+    assert.deepEqual(parsed, page.parsed);
 }
 
 describe('WikiParser test suite', () => {
     let parser = new WikiParser();
+    parser.debugInfo = true;
     parser.stripCategories = true;
    
      it('parse (delfin)', (done) => {
