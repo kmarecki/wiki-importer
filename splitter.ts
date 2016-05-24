@@ -126,6 +126,7 @@ export class SplitterOptions {
     languages: string[];
     raw: boolean;
     breakOnError: boolean;
+    verbose: boolean;
 }
 
 export class Splitter {
@@ -138,6 +139,7 @@ export class Splitter {
 
     constructor(options: SplitterOptions) {
         this.options = options;
+        this.wikiParser.debugInfo = options.verbose;
     }
 
     private isPageValid(ns: number, title: string): boolean {

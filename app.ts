@@ -15,6 +15,7 @@ options.namespaces = argv['namespace'] ? [argv['namespace']] : undefined;
 options.outputDir = argv['outputDir'];
 options.raw = argv['raw'];
 options.xmlPath = argv['xmlPath'];
+options.verbose = argv['verbose'];
 
 var splitter = new Splitter(options);
 splitter.split();

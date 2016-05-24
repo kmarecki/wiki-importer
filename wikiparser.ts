@@ -173,7 +173,9 @@ export class WikiParser {
             //var splitted = this.currentText.split(this.split1regex);
             for (var splittedPart of splitted) {
                 if (splittedPart) {
-                    console.log('Split: ' + splittedPart);
+                    if (this.debugInfo) {
+                        console.log('Split1: ' + splittedPart);
+                    }
                     this.tryParseText(splittedPart, this.currentObject, 1);
                 }
             }
