@@ -136,7 +136,7 @@ export class WikiParser {
         if (this.stripCategories) {
             text = text.replace(this.categoryregex, '');
         }
-        text = text.replace(/[\n\#\*]/g, '');
+        text = text.replace(/[\n\#\*\]\[]/g, '');
         if (text) {
 
             if (!currentObject[this.TEXT_PROPERTY_NAME]) {

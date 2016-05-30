@@ -127,6 +127,7 @@ export class SplitterOptions {
     raw: boolean;
     breakOnError: boolean;
     verbose: boolean;
+    equalitySearch: boolean;
 }
 
 export class Splitter {
@@ -153,8 +154,15 @@ export class Splitter {
 
     private isLanguageValid(language: string): boolean {
         if (this.options.languages.length != 0) {
-            if (!_.find(this.options.languages, lang => language.indexOf(lang) > - 1)) {
-                return false;
+            if (this.options.equalitySearch) { 
+                if (_.includes(this.options.languages, language)) {
+                    return false;
+                }
+            }
+            else {
+                if (!_.find(this.options.languages, lang => language.indexOf(lang) > - 1)) {
+                    return false;
+                }
             }
         }
         return true

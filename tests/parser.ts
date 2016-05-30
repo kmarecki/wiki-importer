@@ -12,7 +12,7 @@ function parsePage(pageName: string, parser: WikiParser): void {
 
 describe('WikiParser test suite', () => {
     let parser = new WikiParser();
-    parser.debugInfo = true;
+    parser.debugInfo = false;
     parser.stripCategories = true;
    
      it('parse (delfin)', (done) => {
