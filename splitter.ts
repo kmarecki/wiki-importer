@@ -4,7 +4,10 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as util from 'util';
 
+import {WikiExporter} from './wikiexporter';
 import {WikiParser} from './wikiparser';
+
+import {EnglishGermanExporter} from './exporters/en/german';
 
 var readlineSync = require('readline-sync');
 
@@ -12,6 +15,7 @@ class Page {
     title: string;
     text: string;
     parsed: any;
+    exported: any;
     revisionId: number;
     timestamp: Date
 }
@@ -138,6 +142,7 @@ export class Splitter {
 
     private wikiSplitter = new WikiSplitter();
     private wikiParser = new WikiParser();
+    private wikiExporter = new EnglishGermanExporter();
 
     constructor(options: SplitterOptions) {
         this.options = options;
@@ -157,7 +162,7 @@ export class Splitter {
     private isLanguageValid(language: string): boolean {
         if (this.options.languages.length != 0) {
             if (this.options.equalitySearch) { 
-                if (_.includes(this.options.languages, language)) {
+                if (!_.includes(this.options.languages, language)) {
                     return false;
                 }
             }
@@ -192,9 +197,10 @@ export class Splitter {
                 page.timestamp = raw.revision.timestamp;
                 page.text = language.text;
                 page.parsed = this.wikiParser.parse(language.text);
+                page.exported = this.wikiExporter.export(page.title, page.parsed);
 
                 let filename = path.join(this.options.outputDir, language.value, _.last(page.title.split('/')));
-                console.log(`${this.pageCount} ${page.title} - ${language.value}, ${filename}`);
+                console.log(`${this.pageCount} ${page.title}, ${page.exported.lexem.part} - ${language.value}, ${filename}`);
                 this.saveFile(filename, page);
             }
         }
