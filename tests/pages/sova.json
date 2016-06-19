@@ -1,0 +1,164 @@
+{
+    "title": "Reconstruction:Proto-Slavic/sova",
+    "revisionId": "37495003",
+    "timestamp": "2016-03-05T12:31:20Z",
+    "text": "==Proto-Slavic==\n\n===Etymology===\n{{rfe|lang=sla-pro}}\n\n===Noun===\n{{sla-noun|f}}\n\n# [[owl]]\n\n====Declension====\n{{sla-decl-noun-a-hard-f|so|v}}\n\n====Descendants====\n* East Slavic:\n** Belarusian: {{l|be|сава|tr=savá}}\n** Russian: {{l|ru|сова|tr=sová}}\n** Ukrainian: {{l|uk|сова|tr=sová}}\n* South Slavic:\n** Bulgarian: {{l|bg|сова|tr=sova}}\n** Macedonian: {{l|mk|сова|tr=sova}}\n** Serbo-Croatian:\n**: Cyrillic: {{l|sh|со́ва|sc=Cyrl}}\n**: Latin: {{l|sh|sóva}}\n** Slovene: {{l|sl|sova}}\n* West Slavic:\n** Czech: {{l|cs|sova}}\n** Polish: {{l|pl|sowa}}\n** Slovak: {{l|sk|sova}}\n** Sorbian:\n*** Lower Sorbian: {{l|dsb|sowa}}\n*** Upper Sorbian: {{l|hsb|sowa}}\n\n[[Category:sla-pro:Birds|{{SUBPAGENAME}}]]",
+    "parsed": {
+        "#text": "==Proto-Slavic==",
+        "Etymology": {
+            "rfe": {
+                "lang": {
+                    "#text": "sla-pro"
+                }
+            }
+        },
+        "Noun": {
+            "sla-noun": {
+                "#text": "f"
+            },
+            "#text": "[[owl]]",
+            "Declension": {
+                "sla-decl-noun-a-hard-f": {
+                    "#text": [
+                        "so",
+                        "v"
+                    ]
+                }
+            },
+            "Descendants": {
+                "East Slavic": {
+                    "Belarusian": {
+                        "l": {
+                            "#text": [
+                                "be",
+                                "сава"
+                            ],
+                            "tr": {
+                                "#text": "savá"
+                            }
+                        }
+                    },
+                    "Russian": {
+                        "l": {
+                            "#text": [
+                                "ru",
+                                "сова"
+                            ],
+                            "tr": {
+                                "#text": "sová"
+                            }
+                        }
+                    },
+                    "Ukrainian": {
+                        "l": {
+                            "#text": [
+                                "uk",
+                                "сова"
+                            ],
+                            "tr": {
+                                "#text": "sová"
+                            }
+                        }
+                    }
+                },
+                "South Slavic": {
+                    "Bulgarian": {
+                        "l": {
+                            "#text": [
+                                "bg",
+                                "сова"
+                            ],
+                            "tr": {
+                                "#text": "sova"
+                            }
+                        }
+                    },
+                    "Macedonian": {
+                        "l": {
+                            "#text": [
+                                "mk",
+                                "сова"
+                            ],
+                            "tr": {
+                                "#text": "sova"
+                            }
+                        }
+                    },
+                    "Serbo-Croatian": {
+                        "Cyrillic": {
+                            "l": {
+                                "#text": [
+                                    "sh",
+                                    "со́ва"
+                                ],
+                                 "sc": {
+                                     "#text": "Cyrl"
+                                 }
+                            }
+                        },
+                        "Latin": {
+                            "l": {
+                                "#text": [
+                                    "sh",
+                                    "sóva"
+                                ]
+                            }
+                        }
+                    },
+                    "Slovene": {
+                        "l": {
+                            "#text": [
+                                "sl",
+                                "sova"
+                            ]
+                        }
+                    }
+                },
+                "West Slavic": {
+                    "Czech": {
+                        "l": {
+                            "#text": [
+                                "cs",
+                                "sova"
+                            ]
+                        }
+                    },
+                    "Polish": {
+                        "l": {
+                            "#text": [
+                                "pl",
+                                "sowa"
+                            ]
+                        }
+                    },
+                    "Slovak": {
+                        "l": {
+                            "#text": [
+                                "sk",
+                                "sova"
+                            ]
+                        }
+                    },
+                    "Sorbian": {
+                        "Lower Sorbian": {
+                            "l": {
+                                "#text": [
+                                    "dsb",
+                                    "sowa"
+                                ]
+                            }
+                        },
+                        "Upper Sorbian": {
+                            "l": {
+                                "#text": [
+                                    "hsb",
+                                    "sowa"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

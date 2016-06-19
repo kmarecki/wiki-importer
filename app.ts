@@ -17,6 +17,7 @@ options.raw = argv['raw'];
 options.xmlPath = argv['xmlPath'];
 options.verbose = argv['verbose'];
 options.equalitySearch = argv['equalitySearch'];
+options.stripCategories = true;
 
 var splitter = new Splitter(options);
 splitter.split();

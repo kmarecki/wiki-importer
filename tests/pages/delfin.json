@@ -1,0 +1,135 @@
+{
+    "title": "delfín",
+    "revisionId": "705520",
+    "timestamp": "2016-01-22T16:39:48Z",
+    "text": "== čeština ==\n=== výslovnost ===\n* {{IPA|ˈdɛlfiːn}}\n\n=== dělení ===\n* del-fín\n\n=== podstatné jméno ===\n* ''rod mužský životný''\n\n==== skloňování ====\n{{Substantivum (cs)\n  | snom = delfín\n  | sgen = delfína\n  | sdat = delfínu / delfínovi\n  | sacc = delfína\n  | svoc = delfíne\n  | sloc = delfínu / delfínovi\n  | sins = delfínem\n  | pnom = delfíni / delfínové\n  | pgen = delfínů\n  | pdat = delfínům\n  | pacc = delfíny\n  | pvoc = delfíni / delfínové\n  | ploc = delfínech\n  | pins = delfíny\n}}\n\n==== význam ====\n# [[český|české]] [[pojmenování]] [[pro]] [[několik]] [[rod]]ů [[mořský]]ch [[kytovec|kytovců]] [[z]] [[čeleď]] [[delfínovití]]\n# [[plavecký]] [[styl]], [[při]] [[on|němž]] [[noha|nohy]] [[zůstávat|zůstávají]] [[u]] [[sebe]] [[a]] [[paže]] [[zabírat|zabírají]] [[současný]]m [[pohyb]]em [[nad]] [[hladina|hladinou]]\n\n==== překlady ====\n# {{Překlady\n  | význam = pojmenování pro několik rodů kytovců\n  | de = {{P|de|Delfin|m}}\n  | en = {{P|en|dolphin}}\n  | eo = {{P|eo|delfeno|m}}\n  | fi = {{P|fi|delfiini}}\n  | fr = {{P|fr|dauphin|m}}\n  | pl = {{P|pl|delfin|m}}\n  | sk = {{P|sk|delfín|m}}\n}}\n# {{Překlady\n  | význam = plavecký styl\n  | de = {{P|de|Delfin|m}}\n  | en = {{P|en|butterfly}}\n  | fi = {{P|fi|perhosuinti}}, {{P|fi|perhonen}}\n  | fr = {{P|fr|papillon|m}}\n  | pl = {{P|pl|delfin|m}}\n}}\n\n==== synonyma ====\n# —\n# [[motýlek]]\n\n==== související ====\n* [[delfíní]]\n* [[delfinárium]]\n",
+    "parsed": {
+        "čeština": {
+            "výslovnost": {
+                "IPA": {
+                    "#text": "ˈdɛlfiːn"
+                }
+            },
+            "dělení": {
+                "#text": "del-fín"
+            },
+            "podstatné jméno": {
+                "#text": "''rod mužský životný''",
+                "skloňování": {
+                    "Substantivum (cs)": {
+                        "snom": {
+                            "#text": "delfín"
+                        },
+                        "sgen": {
+                            "#text": "delfína"
+                        },
+                        "sdat": {
+                            "#text": "delfínu / delfínovi"
+                        },
+                        "sacc": {
+                            "#text": "delfína"
+                        },
+                        "svoc": {
+                            "#text": "delfíne"
+                        },
+                        "sloc": {
+                            "#text": "delfínu / delfínovi"
+                        },
+                        "sins": {
+                            "#text": "delfínem"
+                        },
+                        "pnom": {
+                            "#text": "delfíni / delfínové"
+                        },
+                        "pgen": {
+                            "#text": "delfínů"
+                        },
+                        "pdat": {
+                            "#text": "delfínům"
+                        },
+                        "pacc": {
+                            "#text": "delfíny"
+                        },
+                        "pvoc": {
+                            "#text": "delfíni / delfínové"
+                        },
+                        "ploc": {
+                            "#text": "delfínech"
+                        },
+                        "pins": {
+                            "#text": "delfíny"
+                        }
+                    }
+                },
+                "význam": {
+                    "#text": [
+                        "[[český|české]] [[pojmenování]] [[pro]] [[několik]] [[rod]]ů [[mořský]]ch [[kytovec|kytovců]] [[z]] [[čeleď]] [[delfínovití]]",
+                        "[[plavecký]] [[styl]], [[při]] [[on|němž]] [[noha|nohy]] [[zůstávat|zůstávají]] [[u]] [[sebe]] [[a]] [[paže]] [[zabírat|zabírají]] [[současný]]m [[pohyb]]em [[nad]] [[hladina|hladinou]]"
+                    ]
+                },
+                "překlady": {
+                    "Překlady": {
+                        "význam": {
+                            "#text": "plavecký styl"
+                        },
+                        "de": {
+                            "P": {
+                                "#text": [
+                                    "de",
+                                    "Delfin",
+                                    "m"
+                                ]
+                            }
+                        },
+                        "en": {
+                            "P": {
+                                "#text": [
+                                    "en",
+                                    "butterfly"
+                                ]
+                            }
+                        },
+                        "fi": {
+                            "P|fi|perhosuinti}}, {{P": {
+                                "#text": [
+                                    "fi",
+                                    "perhonen"
+                                ]
+                            }
+                        },
+                        "fr": {
+                            "P": {
+                                "#text": [
+                                    "fr",
+                                    "papillon",
+                                    "m"
+                                ]
+                            }
+                        },
+                        "pl": {
+                            "P": {
+                                "#text": [
+                                    "pl",
+                                    "delfin",
+                                    "m"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "synonyma": {
+                    "#text": [
+                        "—",
+                        "[[motýlek]]"
+                    ]
+                },
+                "související": {
+                    "#text": [
+                        "[[delfíní]]",
+                        "[[delfinárium]]"
+                    ]
+                }
+            }
+        }
+    }
+}

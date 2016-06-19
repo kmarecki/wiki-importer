@@ -1,0 +1,37 @@
+{
+    "title": "moří",
+    "revisionId": "643423",
+    "timestamp": "2015-08-18T06:20:54Z",
+    "text": "== čeština ==\n=== výslovnost ===\n* {{IPA|mɔr̝iː}}\n\n=== dělení ===\n* mo-ří\n\n=== podstatné jméno ===\n* ''rod střední''\n\n==== význam ====\n# ''genitiv plurálu substantiva [[moře]]''\n#* {{Příklad|cs|Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů.}}<ref>Karel Čapek: [[s:Válka s mloky/Der Nordmolch|Válka s mloky]]</ref>\n\n=== sloveso ===\n==== význam ====\n# ''třetí osoba jednotného i množného čísla přítomného času oznamovacího způsobu slovesa [[mořit]]''\n#* {{Příklad|cs|„Trochu mne sice kašel moří, ale není divu, vždyť budu pomalu počítat mého věku osm křížků.“}}<ref>{{Babička|kapitola=XVIII}}</ref>\n",
+    "parsed": {
+        "čeština": {
+            "výslovnost": {
+                "#text": "{{IPA|mɔr̝iː}}"
+            },
+            "dělení": {
+                "#text": "mo-ří"
+            },
+            "podstatné jméno": {
+                "#text": "''rod střední''",
+                "význam": {
+                    "#text": "''genitiv plurálu substantiva [[moře]]''",
+                    "Příklad": {
+                        "#text": [
+                            "cs",
+                            "Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů.}}<ref>Karel Čapek: [[s:Válka s mloky/Der Nordmolch",
+                            "Válka s mloky]]</ref>"
+                        ]
+                    }
+                }
+            },
+            "sloveso": {
+                "význam": {
+                    "#text": "''třetí osoba jednotného i množného čísla přítomného času oznamovacího způsobu slovesa [[mořit]]''",
+                    "{{Příklad|cs|„Trochu mne sice kašel moří, ale není divu, vždyť budu pomalu počítat mého věku osm křížků.“}}<ref>{{Babička|kapitola": {
+                        "#text": "XVIII}}</ref>"
+                    }
+                }
+            }
+        }
+    }
+}
