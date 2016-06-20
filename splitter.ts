@@ -133,6 +133,7 @@ export class SplitterOptions {
     verbose: boolean;
     equalitySearch: boolean;
     stripCategories: boolean;
+    exportPage: boolean;
 }
 
 export class Splitter {
@@ -161,7 +162,7 @@ export class Splitter {
 
     private isLanguageValid(language: string): boolean {
         if (this.options.languages.length != 0) {
-            if (this.options.equalitySearch) { 
+            if (this.options.equalitySearch) {
                 if (!_.includes(this.options.languages, language)) {
                     return false;
                 }
@@ -197,7 +198,9 @@ export class Splitter {
                 page.timestamp = raw.revision.timestamp;
                 page.text = language.text;
                 page.parsed = this.wikiParser.parse(language.text);
-                page.exported = this.wikiExporter.export(page.title, page.parsed);
+                if (this.options.exportPage) {
+                    page.exported = this.wikiExporter.export(page.title, page.parsed);
+                }
 
                 let filename = path.join(this.options.outputDir, language.value, _.last(page.title.split('/')));
                 console.log(`${this.pageCount} ${page.title}, ${page.exported.lexem.part} - ${language.value}, ${filename}`);

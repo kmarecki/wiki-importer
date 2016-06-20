@@ -2,10 +2,81 @@
 import * as _ from 'lodash';
 import * as XRegExp from 'xregexp';
 
+class RegExes {
+    static letterregex = '\\pL\\p{Cyrillic}\\p{Hebrew}\u0301\\p{M}';
+}
+
+interface ParseResult {
+    parsed: string[];
+    rest?: string;
+}
+
+interface ExprParserOptions {
+    debugInfo: boolean;
+    stripCategories: boolean;
+}
+
+interface ExprParser {
+    tryParse(text: string, options?: ExprParserOptions): ParseResult;
+}
+
+class TemplateParser implements ExprParser {
+    // \{\} in [] because we want match last pair of }}, + has to work as greedy operator
+    private templateregex = XRegExp(`^\{\{[${RegExes.letterregex} -|\.\n\{\}]+\}\}`);
+    private templatesplitregex = XRegExp(`\\|(?![${RegExes.letterregex}|]+\})`);
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        let match = text.match(this.templateregex);
+        if (match) {
+            let tosplit = match[0].trim().replace(/^{{/g, '').replace(/}}$/g, '');
+            let rest = text.replace(match[0], '');
+            if (options && options.debugInfo) {
+                console.log('text: ' + text);
+                console.log('match.length' + match.length);
+                console.log(`Found template:${match[0]}`);
+                console.log(`rest:${rest}`);
+            }
+            return {
+                parsed: tosplit.split(this.templatesplitregex),
+                rest: rest
+            };
+        }
+        return undefined;
+    }
+}
+
+class AssignmentOutsideParser implements ExprParser {
+    private assignmentoutsideregex = XRegExp(`^[ ${RegExes.letterregex}-]+[:]`);
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        if (text.match(this.assignmentoutsideregex)) {
+            // can't use text.split(/[:]/), it splits multiple times
+            let i = text.indexOf(':');
+            return {
+                parsed: [text.slice(0, i), text.slice(i + 1)]
+            };
+        }
+        return undefined;
+    }
+}
+
+class AssignmentParser implements ExprParser {
+    private assignmentregex = XRegExp(`[ ${RegExes.letterregex}]+[=][${RegExes.letterregex} {}|\n]`);
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+
+        if (text.match(this.assignmentregex)) {
+            return {
+                parsed: text.split(/[=]/g)
+            };
+        }
+        return undefined;
+    }
+}
+
 export class WikiParser {
     TEXT_PROPERTY_NAME = '#text';
-    //\u0301 - accented Cyrilic 
-    private letterregex = '\\pL\\p{Cyrillic}\\p{Hebrew}\u0301';
+    private letterregex = '\\pL\\p{Cyrillic}\\p{Hebrew}\\p{M}';
     private splitregex = '\*\#';
     private h1regex = XRegExp(`=[ ${this.letterregex}]+=`);
     private h2regex = XRegExp(`==[ ${this.letterregex}]+==`);
@@ -14,15 +85,17 @@ export class WikiParser {
     private split1regex = XRegExp(`[\s][${this.splitregex}][\s]`);
     private split2regex = XRegExp(`[${this.splitregex}]{2}(?![${this.splitregex}]+)`);
     private split3regex = XRegExp(`[${this.splitregex}]{3}(?![${this.splitregex}]+)`);
-    private templateregex = XRegExp(`^\{\{[${this.letterregex} -|\.\n]+\}\}`);
-    private templatesplitregex = XRegExp(`\\|(?![${this.letterregex}|]+\})`);
-    private assignmentregex = XRegExp(`[ ${this.letterregex}]+[=][${this.letterregex} {}|\n]`);
-    private assignmentoutsideregex = XRegExp(`^[ ${this.letterregex}-]+[:]`);
     private categoryregex = XRegExp(`\[\[[ ${this.letterregex}]+:.+\]\]`, 'g');
 
     private objects: Object[];
     private currentLevel: number;
     private currentText: string = '';
+
+    private expParsers = [
+        new TemplateParser(),
+        new AssignmentOutsideParser(),
+        new AssignmentParser()
+    ]
 
     private _debugInfo: boolean;
     public get debugInfo(): boolean {
@@ -79,26 +152,6 @@ export class WikiParser {
         return header.replace(/=/g, '').trim();
     }
 
-    private tryParseTemplate(text: string): string[] {
-        if (text.match(this.templateregex)) {
-            text = text.trim().replace(/^{{/g, '').replace(/}}$/g, '');
-            return text.split(this.templatesplitregex);
-        }
-        return null;
-    }
-
-    private tryParseAssignment(text: string): string[] {
-        if (text.match(this.assignmentoutsideregex)) {
-            // can't use text.split(/[:]/), it splits multiple times
-            var i = text.indexOf(':');
-            return [text.slice(0, i), text.slice(i + 1)];
-        }
-        if (text.match(this.assignmentregex)) {
-            return text.split(/[=]/g);
-        }
-        return null;
-    }
-
     private normalizeChild(child: string): string {
         if (this.stripCategories) {
             child = child.replace(this.categoryregex, '');
@@ -109,14 +162,14 @@ export class WikiParser {
         currentObject[propertyName] = {};
         if (childs) {
             splitLevel++;
-            for (var child of childs) {
+            for (let child of childs) {
                 if (this.debugInfo) {
                     console.log('Child: ' + child);
                 }
-                var regex = splitLevel == 2 ? /(^|[\s])([\*\#]{2}|\#\*)[\s]/g : /(^|[\s])([\*\#]{3}|\#\*)[\s]/g;
-                // var splitted = child.split(/[\*\#]{2}/g);
-                var splitted = this.normalizeChild(child).split(regex);
-                for (var splitedPart of splitted) {
+                let regex = splitLevel == 2 ? /(^|[\s])([\*\#]{2}|\#\*)[\s]/g : /(^|[\s])([\*\#]{3}|\#\*)[\s]/g;
+                // let splitted = child.split(/[\*\#]{2}/g);
+                let splitted = this.normalizeChild(child).split(regex);
+                for (let splitedPart of splitted) {
                     if (this.debugInfo) {
                         console.log(`Split${splitLevel}: ${splitedPart}`);
                     }
@@ -127,8 +180,8 @@ export class WikiParser {
     }
 
     private addPropertyFromParseResult(parsed: string[], currentObject: Object, splitLevel: number): void {
-        var propertyName = parsed[0].trim();
-        var childs = parsed.slice(1);
+        let propertyName = parsed[0].trim();
+        let childs = parsed.slice(1);
         this.addProperty(propertyName, childs, currentObject, splitLevel);
     }
 
@@ -150,28 +203,39 @@ export class WikiParser {
         }
     }
 
+    private getExprParserOptions(): ExprParserOptions {
+        return {
+            debugInfo: this.debugInfo,
+            stripCategories: this.stripCategories
+        };
+    }
+
     private tryParseText(text: string, currentObject: Object, splitLevel: number): void {
         if (text) {
             text = text.trim();
-            var parsed = this.tryParseTemplate(text);
-            if (parsed) {
-                this.addPropertyFromParseResult(parsed, currentObject, splitLevel);
-            } else {
-                parsed = this.tryParseAssignment(text);
-                if (parsed) {
-                    this.addPropertyFromParseResult(parsed, currentObject, splitLevel);
-                } else {
-                    this.addTextProperty(text, currentObject);
+            let parsed = false;
+            for (let parser of this.expParsers) {
+                let result = parser.tryParse(text, this.getExprParserOptions());
+                if (result) {
+                    this.addPropertyFromParseResult(result.parsed, currentObject, splitLevel);
+                    parsed = true;
+                    if (result.rest && result.rest.length > 0) {
+                        this.tryParseText(result.rest, currentObject, splitLevel);
+                    }
+                    break;
                 }
+            }
+            if (!parsed) {
+                this.addTextProperty(text, currentObject);
             }
         }
     }
 
     private saveCurrentText(): void {
         if (this.currentText) {
-            var splitted = this.currentText.split(/(^|[\s])([\*\#]|\#\*)[\s]/g);
-            //var splitted = this.currentText.split(this.split1regex);
-            for (var splittedPart of splitted) {
+            let splitted = this.currentText.split(/(^|[\s])([\*\#]|\#\*)[\s]/g);
+            //let splitted = this.currentText.split(this.split1regex);
+            for (let splittedPart of splitted) {
                 if (splittedPart) {
                     if (this.debugInfo) {
                         console.log('Split1: ' + splittedPart);
@@ -191,12 +255,12 @@ export class WikiParser {
     parse(text: string): any {
         if (text) {
             this.reset();
-            for (var line of text.split('\n')) {
-                var level = this.matchHeader(line);
+            for (let line of text.split('\n')) {
+                let level = this.matchHeader(line);
                 if (level > 0) {
                     this.saveCurrentText();
 
-                    var headerValue = this.getHeaderValue(line);
+                    let headerValue = this.getHeaderValue(line);
                     if (this._debugInfo) {
                         console.log(level + ' ' + headerValue);
                     }

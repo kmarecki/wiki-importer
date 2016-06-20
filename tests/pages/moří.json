@@ -6,7 +6,9 @@
     "parsed": {
         "čeština": {
             "výslovnost": {
-                "#text": "{{IPA|mɔr̝iː}}"
+                 "IPA": {
+                    "#text": "mɔr̝iː"
+                 }
             },
             "dělení": {
                 "#text": "mo-ří"
@@ -14,12 +16,14 @@
             "podstatné jméno": {
                 "#text": "''rod střední''",
                 "význam": {
-                    "#text": "''genitiv plurálu substantiva [[moře]]''",
+                    "#text": [
+                        "''genitiv plurálu substantiva [[moře]]''",
+                        "<ref></ref>"
+                    ],
                     "Příklad": {
                         "#text": [
                             "cs",
-                            "Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů.}}<ref>Karel Čapek: [[s:Válka s mloky/Der Nordmolch",
-                            "Válka s mloky]]</ref>"
+                            "Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů."
                         ]
                     }
                 }

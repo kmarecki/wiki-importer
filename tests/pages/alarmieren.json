@@ -1,0 +1,74 @@
+{
+    "title": "alarmieren",
+    "revisionId": "36512444",
+    "timestamp": "2016-01-22T01:13:09Z",
+    "text": "==German==\n\n===Pronunciation===\n* {{audio|De-alarmieren.ogg|Audio|lang=de}}\n* {{IPA|/alaʁˈmiːʁən/|[ʔalaɐ̯ˈmiːɐ̯n]|lang=de}}\n\n===Verb===\n{{de-verb-weak|alarmiert|alarmierte|alarmiert}}\n\n# {{label|de|transitive}} to [[alarm]]\n\n====Conjugation====\n{{de-conj-weak|alarmier|alarmiert|h}}\n\n====Derived terms====\n* {{l|de|Alarmierung}}\n\n====Related terms====\n* {{l|de|Alarm}}\n\n===External links===\n* {{R:Duden}}\n\n[[de:alarmieren]]\n[[ko:alarmieren]]\n[[io:alarmieren]]\n[[is:alarmieren]]\n[[ku:alarmieren]]\n[[hu:alarmieren]]\n[[mg:alarmieren]]\n[[uz:alarmieren]]\n[[pl:alarmieren]]\n[[fi:alarmieren]]\n[[sv:alarmieren]]\n[[chr:alarmieren]]\n[[zh:alarmieren]]",
+    "parsed": {
+        "German": {
+            "Pronunciation": {
+                "audio": {
+                    "#text": [
+                        "De-alarmieren.ogg",
+                        "Audio"
+                    ],
+                    "lang": {
+                        "#text": "de"
+                    }
+                },
+                "IPA": {
+                    "#text": [
+                        "/alaʁˈmiːʁən/",
+                        "[ʔalaɐ̯ˈmiːɐ̯n]"
+                    ],
+                    "lang": {
+                        "#text": "de"
+                    }
+                }
+            },
+            "Verb": {
+                "de-verb-weak": {
+                    "#text": [
+                        "alarmiert",
+                        "alarmierte",
+                        "alarmiert"
+                    ]
+                },
+                "label": {
+                    "#text": [
+                        "de",
+                        "transitive"
+                    ]
+                },
+                "#text": "to [[alarm]]",
+                "Conjugation": {
+                    "de-conj-weak": {
+                        "#text": [
+                            "alarmier",
+                            "alarmiert",
+                            "h"
+                        ]
+                    }
+                },
+                "Derived terms": {
+                    "l": {
+                        "#text": [
+                            "de",
+                            "Alarmierung"
+                        ]
+                    }
+                },
+                "Related terms": {
+                    "l": {
+                        "#text": [
+                            "de",
+                            "Alarm"
+                        ]
+                    }
+                }
+            },
+            "External links": {
+                "R:Duden": {}
+            }
+        }
+    }
+}
