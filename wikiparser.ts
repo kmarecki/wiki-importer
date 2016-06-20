@@ -14,6 +14,7 @@ interface ParseResult {
 interface ExprParserOptions {
     debugInfo: boolean;
     stripCategories: boolean;
+    splitLevel: number;
 }
 
 interface ExprParser {
@@ -74,8 +75,23 @@ class AssignmentParser implements ExprParser {
     }
 }
 
+class TextWithChildExprParser implements ExprParser {
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        let regex = options.splitLevel === 2 ? /(^|[\s])([\*\#]{2}|\#\*)[\s]/g : /(^|[\s])([\*\#]{3}|\#\*)[\s]/g;
+        let splitted = text.split(regex);
+        if (splitted.length > 1) {
+            splitted.unshift(WikiParser.TEXT_PROPERTY_NAME);
+            return {
+                parsed: splitted
+            };
+        }
+        return undefined;
+    }
+}
+
 export class WikiParser {
-    TEXT_PROPERTY_NAME = '#text';
+    static TEXT_PROPERTY_NAME = '#text';
     private letterregex = '\\pL\\p{Cyrillic}\\p{Hebrew}\\p{M}';
     private splitregex = '\*\#';
     private h1regex = XRegExp(`=[ ${this.letterregex}]+=`);
@@ -94,7 +110,8 @@ export class WikiParser {
     private expParsers = [
         new TemplateParser(),
         new AssignmentOutsideParser(),
-        new AssignmentParser()
+        new AssignmentParser(),
+        new TextWithChildExprParser()
     ]
 
     private _debugInfo: boolean;
@@ -192,21 +209,22 @@ export class WikiParser {
         text = text.replace(/[\n\#\*]/g, '');
         if (text) {
 
-            if (!currentObject[this.TEXT_PROPERTY_NAME]) {
-                currentObject[this.TEXT_PROPERTY_NAME] = text;
+            if (!currentObject[WikiParser.TEXT_PROPERTY_NAME]) {
+                currentObject[WikiParser.TEXT_PROPERTY_NAME] = text;
             } else {
-                if (!(currentObject[this.TEXT_PROPERTY_NAME] instanceof Array)) {
-                    currentObject[this.TEXT_PROPERTY_NAME] = [currentObject[this.TEXT_PROPERTY_NAME]];
+                if (!(currentObject[WikiParser.TEXT_PROPERTY_NAME] instanceof Array)) {
+                    currentObject[WikiParser.TEXT_PROPERTY_NAME] = [currentObject[WikiParser.TEXT_PROPERTY_NAME]];
                 }
-                (<[]>currentObject[this.TEXT_PROPERTY_NAME]).push(text);
+                (<[]>currentObject[WikiParser.TEXT_PROPERTY_NAME]).push(text);
             }
         }
     }
 
-    private getExprParserOptions(): ExprParserOptions {
+    private getExprParserOptions(splitLevel: number): ExprParserOptions {
         return {
             debugInfo: this.debugInfo,
-            stripCategories: this.stripCategories
+            stripCategories: this.stripCategories,
+            splitLevel: splitLevel
         };
     }
 
@@ -215,7 +233,7 @@ export class WikiParser {
             text = text.trim();
             let parsed = false;
             for (let parser of this.expParsers) {
-                let result = parser.tryParse(text, this.getExprParserOptions());
+                let result = parser.tryParse(text, this.getExprParserOptions(splitLevel));
                 if (result) {
                     this.addPropertyFromParseResult(result.parsed, currentObject, splitLevel);
                     parsed = true;
@@ -233,7 +251,7 @@ export class WikiParser {
 
     private saveCurrentText(): void {
         if (this.currentText) {
-            let splitted = this.currentText.split(/(^|[\s])([\*\#]|\#\*)[\s]/g);
+            let splitted = this.currentText.split(/(^|[\s])([\*\#])[\s]/g);
             //let splitted = this.currentText.split(this.split1regex);
             for (let splittedPart of splitted) {
                 if (splittedPart) {
