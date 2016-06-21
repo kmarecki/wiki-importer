@@ -6,9 +6,9 @@
     "parsed": {
         "čeština": {
             "výslovnost": {
-                 "IPA": {
+                "IPA": {
                     "#text": "mɔr̝iː"
-                 }
+                }
             },
             "dělení": {
                 "#text": "mo-ří"
@@ -16,26 +16,48 @@
             "podstatné jméno": {
                 "#text": "''rod střední''",
                 "význam": {
-                    "#text": [
-                        "''genitiv plurálu substantiva [[moře]]''",
-                        "<ref></ref>"
-                    ],
-                    "Příklad": {
+                    "#text": {
                         "#text": [
-                            "cs",
-                            "Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů."
-                        ]
+                            "''genitiv plurálu substantiva [[moře]]''",
+                            "<ref></ref>"
+                        ],
+                        "Příklad": {
+                            "#text": [
+                                "cs",
+                                "Proto Německo potřebuje nových a delších břehů, potřebuje kolonií, potřebuje světových moří, aby se všude v německých vodách mohly vyvinout nové generace rasově čistých, prapůvodních německých Salamandrů."
+                            ]
+                        }
                     }
                 }
             },
             "sloveso": {
                 "význam": {
-                    "#text": "''třetí osoba jednotného i množného čísla přítomného času oznamovacího způsobu slovesa [[mořit]]''",
-                    "{{Příklad|cs|„Trochu mne sice kašel moří, ale není divu, vždyť budu pomalu počítat mého věku osm křížků.“}}<ref>{{Babička|kapitola": {
-                        "#text": "XVIII}}</ref>"
+                    "#text": {
+                        "#text": [
+                            "''třetí osoba jednotného i množného čísla přítomného času oznamovacího způsobu slovesa [[mořit]]''",
+                            "<ref>{{Babička|kapitola=XVIII}}</ref>"
+                        ],
+                        "Příklad": {
+                            "#text": [
+                                "cs",
+                                "„Trochu mne sice kašel moří, ale není divu, vždyť budu pomalu počítat mého věku osm křížků.“"
+                            ]
+                        }
                     }
                 }
             }
+        }
+    },
+    "exported": {
+        "lexem": {
+            "lemma": "moří"
+        },
+        "translation": {
+            "lexem": "moří",
+            "lang": "en",
+            "meanings": [
+                {}
+            ]
         }
     }
 }

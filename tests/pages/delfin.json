@@ -68,54 +68,130 @@
                     ]
                 },
                 "překlady": {
-                    "Překlady": {
-                        "význam": {
-                            "#text": "plavecký styl"
-                        },
-                        "de": {
-                            "P": {
-                                "#text": [
-                                    "de",
-                                    "Delfin",
-                                    "m"
-                                ]
+                    "Překlady": [
+                        {
+                            "význam": {
+                                "#text": "pojmenování pro několik rodů kytovců"
+                            },
+                            "de": {
+                                "P": {
+                                    "#text": [
+                                        "de",
+                                        "Delfin",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "en": {
+                                "P": {
+                                    "#text": [
+                                        "en",
+                                        "dolphin"
+                                    ]
+                                }
+                            },
+                            "eo": {
+                                "P": {
+                                    "#text": [
+                                        "eo",
+                                        "delfeno",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "fi": {
+                                "P": {
+                                    "#text": [
+                                        "fi",
+                                        "delfiini"
+                                    ]
+                                }
+                            },
+                            "fr": {
+                                "P": {
+                                    "#text": [
+                                        "fr",
+                                        "dauphin",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "pl": {
+                                "P": {
+                                    "#text": [
+                                        "pl",
+                                        "delfin",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "sk": {
+                                "P": {
+                                    "#text": [
+                                        "sk",
+                                        "delfín",
+                                        "m"
+                                    ]
+                                }
                             }
                         },
-                        "en": {
-                            "P": {
-                                "#text": [
-                                    "en",
-                                    "butterfly"
+                        {
+                            "význam": {
+                                "#text": "plavecký styl"
+                            },
+                            "de": {
+                                "P": {
+                                    "#text": [
+                                        "de",
+                                        "Delfin",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "en": {
+                                "P": {
+                                    "#text": [
+                                        "en",
+                                        "butterfly"
+                                    ]
+                                }
+                            },
+                            "fi": {
+                                "P": [
+                                    {
+                                        "#text": [
+                                            "fi",
+                                            "perhosuinti"
+                                        ]
+                                    },
+                                    {
+                                        "#text": [
+                                            "fi",
+                                            "perhonen"
+                                        ]
+                                    }
                                 ]
-                            }
-                        },
-                        "fi": {
-                            "P|fi|perhosuinti}}, {{P": {
-                                "#text": [
-                                    "fi",
-                                    "perhonen"
-                                ]
-                            }
-                        },
-                        "fr": {
-                            "P": {
-                                "#text": [
-                                    "fr",
-                                    "papillon",
-                                    "m"
-                                ]
-                            }
-                        },
-                        "pl": {
-                            "P": {
-                                "#text": [
-                                    "pl",
-                                    "delfin",
-                                    "m"
-                                ]
+                            },
+                            "fr": {
+                                "P": {
+                                    "#text": [
+                                        "fr",
+                                        "papillon",
+                                        "m"
+                                    ]
+                                }
+                            },
+                            "pl": {
+                                "P": {
+                                    "#text": [
+                                        "pl",
+                                        "delfin",
+                                        "m"
+                                    ]
+                                }
                             }
                         }
-                    }
+                    ]
                 },
                 "synonyma": {
                     "#text": [
@@ -130,6 +206,18 @@
                     ]
                 }
             }
+        }
+    },
+    "exported": {
+        "lexem": {
+            "lemma": "delfín"
+        },
+        "translation": {
+            "lexem": "delfín",
+            "lang": "en",
+            "meanings": [
+                {}
+            ]
         }
     }
 }

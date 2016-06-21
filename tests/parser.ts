@@ -15,7 +15,7 @@ describe('WikiParser test suite', () => {
     parser.debugInfo = true;
     parser.stripCategories = true;
 
-    /*it('parse (delfin)', (done) => {
+    it('parse (delfin)', (done) => {
         parsePage('delfin', parser);
         done();
     });
@@ -23,7 +23,7 @@ describe('WikiParser test suite', () => {
     it('strip categories (dělat)', (done) => {
         parsePage('dělat', parser);
         done();
-    });*/
+    });
 
     it('parse references (moří)', (done) => {
         parsePage('moří', parser);
@@ -35,9 +35,8 @@ describe('WikiParser test suite', () => {
         done();
     });
 
-    /*
     it('parse template no line break (alarmieren)', (done) => {
         parsePage('alarmieren', parser);
         done();
-    });*/
+    });
 });
