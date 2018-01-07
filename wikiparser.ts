@@ -21,13 +21,172 @@ interface ExprParser {
     tryParse(text: string, options?: ExprParserOptions): ParseResult;
 }
 
+//(1.1) {{ekon}} {{hand}} [[cena]]
+//(1.1-3) {{odmiana-rzeczownik-czeski|Mianownik lp    = cena|Mianownik lm   = ceny}}"
+class ParenthesedTemplateParser implements ExprParser {
+    private match(text: string): { matches: string[], rest: string } {
+        const matches: Array<string> = [];
+        let match = '';
+        let bracketLevel = 0;
+        let i;
+        let found = false;
+        for (i = 1; i < text.length; i++) {
+            let prev = text[i - 1];
+            let char = text[i];
+            if (prev === '(' && !found) {
+                match += prev;
+                found = true;
+            }
+            if (prev === ')' && found && matches.length == 0) {
+                matches.push(match);
+                match = '';
+            }
+
+            if (found && char === "{") {
+                if (bracketLevel == 0) {
+                    matches.push(match);
+                    match = '';
+                }
+                bracketLevel++;
+            }
+
+            if (found && prev === "}") {
+                bracketLevel--;
+                if (bracketLevel == 0) {
+                    matches.push(match);
+                    match = '';
+                }
+            }
+
+            match += char;
+
+        }
+        if (found) {
+            matches.push(match);
+        }
+        return {
+            matches: matches,
+            rest: ''
+        };
+    }
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        console.log('Try to match a paranthesed template expr' + text);
+        let result = this.match(text);
+        if (result.matches.length > 0) {
+            let rest = result.rest;
+            if (options && options.debugInfo) {
+                console.log('Found a parenthesed template expr');
+                console.log('text: ' + text);
+                console.log(`Found parenthesed template:${result.matches[0]}`);
+                console.log(`Found parenthesed template2:${result.matches[1]}`);
+                console.log(`Found parenthesed template3:${result.matches[2]}`);
+                console.log(`rest:${rest}`);
+            }
+            return {
+                parsed: result.matches,
+                rest: rest
+            };
+        }
+        return undefined;
+    }
+}
+
+//{{znaczenia}}\n''rzeczownik, rodzaj żeński''\n: (1.1) {{ekon}} {{hand}} [[cena]]\n: (1.2) [[wartość]]\n: (1.3) [[nagroda]]\n
+class OutsideTemplateParser implements ExprParser {
+
+    private splitregex = XRegExp(`:`);
+    private skipleadingregex = XRegExp(`[ ,{]`);
+
+    private match(text: string): { matches: string[], rest: string } {
+        const matches: Array<string> = [];
+        let match = '';
+        let bracketLevel = 0;
+        let i;
+        for (i = 1; i < text.length; i++) {
+            let prev = text[i - 1];
+            let char = text[i];
+            if (prev === '{' && char === '{') {
+                if (bracketLevel === 0 && i == 1) {
+                    match += prev;
+                }
+                bracketLevel++;
+            }
+            if (prev === '}' && char === '}') {
+                bracketLevel--;
+                if (bracketLevel === 0) {
+                    match += char;
+
+                    //only first closed template can be name of an outside template
+                    if (matches.length == 0) {
+
+                        match = match.trim().replace(/^{{/g, '').replace(/}}$/g, '');
+                        matches.push(match);
+                        match = ''
+                    }
+                    continue;
+                }
+            }
+
+            if (bracketLevel > 0) {
+                match += char;
+            } else
+                //trying to find outside template
+                if (matches.length > 0) {
+                    if (bracketLevel === 0 && prev === '\n' && char === '{') {
+                        if (matches.length > 1) {
+                            matches.push(match);
+                            match = '';
+                        }
+                        break;
+                    }
+                    if (char === ':' && prev === '\n') {
+                        matches.push(match);
+                        match = '';
+                    } else {
+                        match += char;
+                    }
+                } else
+                    if (!char.match(this.skipleadingregex)) {
+                        break;
+                    }
+        }
+        if (matches.length > 1 && match !== '') {
+            matches.push(match);
+        }
+        //return outside template only when there are more matches after templete name
+        return {
+            matches: matches.length > 1 ? matches : [],
+            rest: matches.length > 1 ? text.slice(i) : ''
+        };
+    }
+
+    tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        console.log('Try to match an outside template expr' + text);
+        let result = this.match(text);
+        if (result.matches.length > 0) {
+            let rest = result.rest;
+            if (options && options.debugInfo) {
+                console.log('Found an outside template expr');
+                console.log('text: ' + text);
+                console.log(`Found outside template:${result.matches[0]}`);
+                console.log(`rest:${rest}`);
+            }
+            return {
+                parsed: result.matches,
+                rest: result.rest
+            };
+        }
+        return undefined;
+    }
+}
 class TemplateParser implements ExprParser {
     // \{\} in [] because we want to match last pair of }}, + has to work as greedy operator
     private templateregex = XRegExp(`^\{\{[${RegExes.letterregex} -|\.\n\{\}„“]+\}\}`);
     private templatesplitregex = XRegExp(`\\|(?![${RegExes.letterregex}|]+\})`);
     private skipleadingregex = XRegExp(`[ ,{]`);
 
-    private match(text: string): {match: string, rest: string} {
+    private match(text: string): { match: string, rest: string } {
         let match = '';
         let bracketLevel = 0;
         let i;
@@ -60,6 +219,7 @@ class TemplateParser implements ExprParser {
     }
 
     tryParse(text: string, options?: ExprParserOptions): ParseResult {
+        console.log('Try to match a template expr' + text);
         let result = this.match(text);
         // let match = text.match(this.templateregex);
         if (result.match) {
@@ -163,7 +323,9 @@ export class WikiParser {
     private currentText: string = '';
 
     private expParsers = [
+        new OutsideTemplateParser(),
         new TemplateParser(),
+        new ParenthesedTemplateParser(),
         new AssignmentOutsideParser(),
         new AssignmentParser(),
         new TextWithChildExprParser()
@@ -238,7 +400,7 @@ export class WikiParser {
             if (!(currentObject[propertyName] instanceof Array)) {
                 currentObject[propertyName] = [currentObject[propertyName]];
             }
-            (<[]>currentObject[propertyName]).push(value);
+            (<Array<object>>currentObject[propertyName]).push(value);
         }
     }
 

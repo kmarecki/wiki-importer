@@ -7,6 +7,7 @@ function parsePage(pageName: string, parser: WikiParser): void {
     let fileName = `./pages/${pageName}.json`;
     let page = <{ text: string, parsed: string }>require(fileName);
     let parsed = parser.parse(page.text);
+    console.log(parsed);
     assert.deepEqual(parsed, page.parsed);
 }
 
@@ -37,6 +38,11 @@ describe('WikiParser test suite', () => {
 
     it('parse template no line break (alarmieren)', (done) => {
         parsePage('alarmieren', parser);
+        done();
+    });
+
+    it('parse (cena)', (done) => {
+        parsePage('cena', parser);
         done();
     });
 });
