@@ -19,6 +19,7 @@ options.verbose = argv['verbose'];
 options.equalitySearch = argv['equalitySearch'];
 options.stripCategories = true;
 options.exportPage = true;
+options.adapter = argv['adapter'];
 
 let splitter = new Splitter(options);
 splitter.split();

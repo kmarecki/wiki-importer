@@ -2,18 +2,47 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Launch",
+			"name": "Launch cs",
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/app.js",
 			"stopOnEntry": false,
 			"args": [
 				"--xmlPath=../../wikibackup/cswiktionary-20160407-pages-articles-multistream.xml",
-				"--outputDir=../../wikipages/cs",
+				"--outputDir=../../wikipages/cs2",
 				"čeština",
 				"polština",
 				"angličtina",
 				"ruština"
+			],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"externalConsole": false,
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
+			"name": "Launch pl",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/app.js",
+			"stopOnEntry": false,
+			"args": [
+				"--xmlPath=../../wikibackup/plwiktionary-20180101-pages-articles-multistream.xml",
+				"--outputDir=../../wikipages/pl2",
+				"--adapter=plwiktionary",
+				"polski",
+				"czeski",
+				"angielski",
+				"rosyjski"
+				
 			],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": null,

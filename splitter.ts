@@ -4,10 +4,12 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as util from 'util';
 
-import {WikiExporter} from './wikiexporter';
-import {WikiParser} from './wikiparser';
+import { WikiExporter } from './wikiexporter';
+import { WikiParser } from './wikiparser';
 
-import {EnglishGermanExporter} from './exporters/en/german';
+import { EnglishGermanExporter } from './exporters/en/german';
+import { Adapter } from './adapters/adapter';
+import { AdapterFactory } from './adapters/adapterFactory';
 
 var readlineSync = require('readline-sync');
 
@@ -134,6 +136,7 @@ export class SplitterOptions {
     equalitySearch: boolean;
     stripCategories: boolean;
     exportPage: boolean;
+    adapter: string;
 }
 
 export class Splitter {
@@ -144,11 +147,16 @@ export class Splitter {
     private wikiSplitter = new WikiSplitter();
     private wikiParser = new WikiParser();
     private wikiExporter = new EnglishGermanExporter();
+    private wikiAdapter: Adapter;
 
     constructor(options: SplitterOptions) {
         this.options = options;
         this.wikiParser.debugInfo = options.verbose;
         this.wikiParser.stripCategories = options.stripCategories;
+
+        if (options.adapter) {
+            this.wikiAdapter = AdapterFactory.createAdapter(options.adapter);
+        }
     }
 
     private isPageValid(ns: number, title: string): boolean {
@@ -182,17 +190,15 @@ export class Splitter {
     }
 
     private saveRawPage(raw: any): void {
-        if (this.isLanguageValid(raw.title)) {
-            console.log(`${this.pageCount} ${raw.title}`);
-            let filename = path.join(this.options.outputDir, raw.title);
-            this.saveFile(filename, raw);
-        }
+        console.log(`${this.pageCount} ${raw.title}`);
+        let filename = path.join(this.options.outputDir, raw.title);
+        this.saveFile(filename, raw);
     }
 
     private saveParsedPage(raw: any): void {
         for (let language of this.wikiSplitter.splitH2(raw.revision.text)) {
             if (this.isLanguageValid(language.value)) {
-                let page = new Page();
+                const page = new Page();
                 page.title = raw.title;
                 page.revisionId = raw.revision.id;
                 page.timestamp = raw.revision.timestamp;
@@ -202,7 +208,10 @@ export class Splitter {
                     page.exported = this.wikiExporter.export(page.title, page.parsed);
                 }
 
-                let filename = path.join(this.options.outputDir, language.value, _.last(page.title.split('/')));
+                const lang = this.wikiAdapter ? 
+                    this.wikiAdapter.getEntryLanguage(language.value) :
+                    language.value;
+                let filename = path.join(this.options.outputDir, lang, _.last(page.title.split('/')));
                 console.log(`${this.pageCount} ${page.title}, ${page.exported.lexem.part} - ${language.value}, ${filename}`);
                 this.saveFile(filename, page);
             }
