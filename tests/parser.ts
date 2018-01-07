@@ -13,7 +13,7 @@ function parsePage(pageName: string, parser: WikiParser): void {
 
 describe('WikiParser test suite', () => {
     let parser = new WikiParser();
-    parser.debugInfo = true;
+    parser.debugInfo = false;
     parser.stripCategories = true;
 
     it('parse (delfin)', (done) => {
@@ -42,6 +42,7 @@ describe('WikiParser test suite', () => {
     });
 
     it('parse (cena)', (done) => {
+        parser.stripCategories = false;
         parsePage('cena', parser);
         done();
     });

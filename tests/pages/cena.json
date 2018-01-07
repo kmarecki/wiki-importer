@@ -2,40 +2,43 @@
     "title": "cena",
     "revisionId": "5616678",
     "timestamp": "2017-04-25T20:12:56Z",
-    "text": " {{wymowa}}{{audio|Cs-cena.ogg}}\n{{dzielenie|ce|na}}\n{{znaczenia}}\n''rzeczownik, rodzaj żeński''\n: (1.1) {{ekon}} {{hand}} [[cena]]\n: (1.2) [[wartość]]\n: (1.3) [[nagroda]]\n{{odmiana}}\n: (1.1-3) {{odmiana-rzeczownik-czeski\n|Mianownik lp    = cena\n|Mianownik lm    = ceny\n}}",
+    "text": "== cena ({{język czeski}}) ==\n[[Plik:Finally A Good iPod Bootleg.jpg|thumb|cena (1.1)]]\n{{wymowa}}{{audio|Cs-cena.ogg}}\n{{dzielenie|ce|na}}\n{{znaczenia}}\n''rzeczownik, rodzaj żeński''\n: (1.1) {{ekon}} {{hand}} [[cena]]\n: (1.2) [[wartość]]\n: (1.3) [[nagroda]]\n{{odmiana}}\n: (1.1-3) {{odmiana-rzeczownik-czeski\n|Mianownik lp    = cena\n|Mianownik lm    = ceny\n}}",
     "parsed": {
-        "wymowa": {},
-        "audio": {
-            "#text": "Cs-cena.ogg"
-        },
-        "dzielenie": {
-            "#text": [
-                "ce",
-                "na"
-            ]
-        },
-        "znaczenia": {
-            "#text": "''rzeczownik, rodzaj żeński''",
-            "(1.1)": {
-                "ekon": {},
-                "hand": {},
-                "#text": "[[cena]]"
+        "cena ({{język czeski}})": {
+            "#text": "[[Plik:Finally A Good iPod Bootleg.jpg|thumb|cena (1.1)]]",
+            "wymowa": {},
+            "audio": {
+                "#text": "Cs-cena.ogg"
             },
-            "(1.2)": {
-                "#text": "[[wartość]]"
+            "dzielenie": {
+                "#text": [
+                    "ce",
+                    "na"
+                ]
             },
-            "(1.3)": {
-                "#text": "[[nagroda]]"
-            }
-        },
-        "odmiana": {
-            "(1.1-3)": {
-                "odmiana-rzeczownik-czeski": {
-                    "Mianownik lm": {
-                        "#text": "ceny"
-                    },
-                    "Mianownik lp": {
-                        "#text": "cena"
+            "znaczenia": {
+                "#text": "''rzeczownik, rodzaj żeński''",
+                "(1.1)": {
+                    "ekon": {},
+                    "hand": {},
+                    "#text": "[[cena]]"
+                },
+                "(1.2)": {
+                    "#text": "[[wartość]]"
+                },
+                "(1.3)": {
+                    "#text": "[[nagroda]]"
+                }
+            },
+            "odmiana": {
+                "(1.1-3)": {
+                    "odmiana-rzeczownik-czeski": {
+                        "Mianownik lm": {
+                            "#text": "ceny"
+                        },
+                        "Mianownik lp": {
+                            "#text": "cena"
+                        }
                     }
                 }
             }
