@@ -101,11 +101,12 @@ class TextPart {
 
 class WikiSplitter {
 
-    splitH2(text: string): TextPart[] {
-        var parts: TextPart[] = [];
-        var currentPart: TextPart;
+    splitH2(adapter:Adapter, text: string): TextPart[] {
+        const parts: TextPart[] = [];
+        let currentPart: TextPart;
+        const langregex = adapter.getLanguageMatch(); 
         for (var line of text.split('\n')) {
-            if (line.match(/^==[^=\|[\n\r\t.,'\"\+!?]+==/g)) {
+            if (line.match(langregex)) {
                 if (currentPart != null) {
                     parts.push(currentPart);
                 }
@@ -153,10 +154,7 @@ export class Splitter {
         this.options = options;
         this.wikiParser.debugInfo = options.verbose;
         this.wikiParser.stripCategories = options.stripCategories;
-
-        if (options.adapter) {
-            this.wikiAdapter = AdapterFactory.createAdapter(options.adapter);
-        }
+        this.wikiAdapter = AdapterFactory.createAdapter(options.adapter);
     }
 
     private isPageValid(ns: number, title: string): boolean {
@@ -196,8 +194,11 @@ export class Splitter {
     }
 
     private saveParsedPage(raw: any): void {
-        for (let language of this.wikiSplitter.splitH2(raw.revision.text)) {
-            if (this.isLanguageValid(language.value)) {
+        for (let language of this.wikiSplitter.splitH2(this.wikiAdapter, raw.revision.text)) {
+            const lang = this.wikiAdapter.getEntryLanguage(language.value);
+            
+            // console.log(`Lang: ${lang}, ${language.value}`);
+            if (this.isLanguageValid(lang)) {
                 const page = new Page();
                 page.title = raw.title;
                 page.revisionId = raw.revision.id;
@@ -208,11 +209,8 @@ export class Splitter {
                     page.exported = this.wikiExporter.export(page.title, page.parsed);
                 }
 
-                const lang = this.wikiAdapter ? 
-                    this.wikiAdapter.getEntryLanguage(language.value) :
-                    language.value;
                 let filename = path.join(this.options.outputDir, lang, _.last(page.title.split('/')));
-                console.log(`${this.pageCount} ${page.title}, ${page.exported.lexem.part} - ${language.value}, ${filename}`);
+                console.log(`${this.pageCount} ${page.title}, ${lang}, ${filename}`);
                 this.saveFile(filename, page);
             }
         }
@@ -286,6 +284,10 @@ export class Splitter {
                 console.log(this.options.xmlPath + ' not exist');
             }
         });
-        fs.createReadStream(this.options.xmlPath).pipe(saxStream);
+        fs.createReadStream(this.options.xmlPath)
+            .pipe(saxStream)
+            .on('finish', () => {
+                console.log("Import is completed");
+            });
     }
 }

@@ -91,7 +91,9 @@ class ParenthesedTemplateParser implements ExprParser {
     }
 
     tryParse(text: string, options?: ExprParserOptions): ParseResult {
-        console.log('Try to match a paranthesed template expr' + text);
+        if (options && options.debugInfo) {
+            console.log('Try to match a paranthesed template expr' + text);
+        }
         let result = this.match(text);
         if (result.matches.length > 0) {
             let rest = result.rest;
@@ -180,7 +182,9 @@ class OutsideTemplateParser implements ExprParser {
     }
 
     tryParse(text: string, options?: ExprParserOptions): ParseResult {
-        console.log('Try to match an outside template expr' + text);
+        if (options && options.debugInfo) {
+            console.log('Try to match an outside template expr' + text);
+        }
         let result = this.match(text);
         if (result.matches.length > 0) {
             let rest = result.rest;
@@ -237,7 +241,9 @@ class TemplateParser implements ExprParser {
     }
 
     tryParse(text: string, options?: ExprParserOptions): ParseResult {
-        console.log('Try to match a template expr' + text);
+        if (options && options.debugInfo) {
+            console.log('Try to match a template expr' + text);
+        }
         let result = this.match(text);
         // let match = text.match(this.templateregex);
         if (result.match) {
@@ -296,7 +302,9 @@ class AssignmentParser implements ExprParser {
             // can't use match[0] because it could begin in the middle of text
             let splited = text.split(/[=]/g);
             if (!splited[0].match(this.forbiddenregex)) {
-                console.log(`Assignment expr splitted 0:${splited[0]} 1:${splited[1]}`)
+                if (options && options.debugInfo) {
+                    console.log(`Assignment expr splitted 0:${splited[0]} 1:${splited[1]}`)
+                }
                 return {
                     parsed: splited
                 };
@@ -340,7 +348,7 @@ class TextLineExprParser implements ExprParser {
         return undefined;
 
     }
-    
+
 }
 
 export class WikiParser {
@@ -474,7 +482,7 @@ export class WikiParser {
 
     private addTextProperty(text: string, currentObject: Object): void {
         if (this.stripCategories) {
-           // text = text.replace(this.categoryregex, '');
+            // text = text.replace(this.categoryregex, '');
         }
         text = text.replace(/[\n\#\*]/g, '');
         if (text) {

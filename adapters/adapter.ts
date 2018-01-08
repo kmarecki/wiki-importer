@@ -1,9 +1,16 @@
     export interface Adapter {
+        
+        getLanguageMatch(): RegExp;
+
         getEntryLanguage(language: string): string;
     }
 
     export class BaseAdapter implements Adapter {
-        public getEntryLanguage(lang: string): string {
+        getEntryLanguage(lang: string): string {
             return lang;
+        }
+
+        getLanguageMatch(): RegExp {
+            return /^==[^=\|[\n\r\t.,'\"\+!?]+==/g;
         }
     }

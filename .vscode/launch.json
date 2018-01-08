@@ -41,7 +41,60 @@
 				"polski",
 				"czeski",
 				"angielski",
-				"rosyjski"
+				"rosyjski",
+				"niemiecki",
+			],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"externalConsole": false,
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
+			"name": "Launch de",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/app.js",
+			"stopOnEntry": false,
+			"args": [
+				"--xmlPath=../../wikibackup/dewiktionary-20180101-pages-articles-multistream.xml",
+				"--outputDir=../../wikipages/de",
+				"--adapter=dewiktionary",
+				"Deutsch",
+				"Polnisch",
+				"Tschechisch",
+				"Englisch",
+			],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"externalConsole": false,
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
+			"name": "Launch ru",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/app.js",
+			"stopOnEntry": false,
+			"args": [
+				"--xmlPath=../../wikibackup/ruwiktionary-20180101-pages-articles-multistream.xml",
+				"--outputDir=../../wikipages/ru-raw",
+				"--raw=true"
 				
 			],
 			"cwd": "${workspaceRoot}",
