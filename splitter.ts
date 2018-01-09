@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as util from 'util';
 
 import { WikiExporter } from './wikiexporter';
-import { WikiParser } from './wikiparser';
+import { WikiParser } from './parser/wikiParser';
 
 import { EnglishGermanExporter } from './exporters/en/german';
 import { Adapter } from './adapters/adapter';
@@ -287,6 +287,7 @@ export class Splitter {
         fs.createReadStream(this.options.xmlPath)
             .pipe(saxStream)
             .on('finish', () => {
+                //TODO Fix it, it doesn't work
                 console.log("Import is completed");
             });
     }

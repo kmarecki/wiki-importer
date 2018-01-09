@@ -1,7 +1,7 @@
 /// <reference path="../typings/index.d.ts" />
 
 import * as assert from 'assert';
-import {WikiParser} from '../wikiparser';
+import {WikiParser} from '../parser/wikiparser';
 
 function parsePage(pageName: string, parser: WikiParser): void {
     let fileName = `./pages/${pageName}.json`;
