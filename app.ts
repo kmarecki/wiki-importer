@@ -1,6 +1,4 @@
-/// <reference path="typings/index.d.ts" />
-
-process.env.UV_THREADPOOL_SIZE = 8;
+process.env.UV_THREADPOOL_SIZE = '8';
 
 import * as minimist from 'minimist';
 import {Splitter, SplitterOptions} from './splitter';

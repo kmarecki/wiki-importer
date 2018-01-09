@@ -12,6 +12,8 @@
     ""
   ],
   "dependencies": {
+    "@types/mocha": "^2.2.46",
+    "@types/node": "^9.3.0",
     "commander": "^2.9.0",
     "es6-promise": "^3.2.1",
     "es6-promise-polyfill": "^1.2.0",
